@@ -16,7 +16,7 @@
 > https://github.com/wan230114/BioNote  
 >
 <!-- > **快速开始：**  
-> [>> BioNote使用方法](/docs/Usage.md) -->
+> [>> BioNote使用方法](Usage.md) -->
 
 </font>
 
@@ -25,13 +25,13 @@
 <!-- menu -->
 * **生物基础部分**
     <!-- menu_base -->
-    * [Introduction 前言](/docs/00.Base/Introduction.md)
-    * [Chapter01.生物学简介](/docs/00.Python/Chapter01.PythonReview.md)
-    * [附录](/docs/00.Python/ChapterN_Appendix.md)
+    * [Introduction 前言](00.Base/Introduction.md)
+    * [Chapter01.生物学简介](00.Python/Chapter01.PythonReview.md)
+    * [附录](00.Python/ChapterN_Appendix.md)
     <!-- menu_base -->
 * **生物数据库**
-    * [Introduction 前言](/docs/database.md)
+    * [Introduction 前言](database.md)
 
 * **WGS**
-    * [Introduction 前言](/docs/01.WGS/Introduction.md)
+    * [Introduction 前言](01.WGS/Introduction.md)
 <!-- menu -->
