@@ -7,7 +7,7 @@
     <!-- menu_base -->
 * **生物数据库**
     * [Introduction 前言](database.md)
-
-* **WGS**
+* **基本数据分析**
     * [Introduction 前言](01.WGS/Introduction.md)
+    * [Chapter01 WGS](01.BioInformation/Chapter01.WGS.md)
 <!-- menu -->

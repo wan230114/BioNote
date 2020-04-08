@@ -31,7 +31,7 @@
     <!-- menu_base -->
 * **生物数据库**
     * [Introduction 前言](/docs/database.md)
-
-* **WGS**
+* **基本数据分析**
     * [Introduction 前言](/docs/01.WGS/Introduction.md)
+    * [Chapter01 WGS](/docs/01.BioInformation/Chapter01.WGS.md)
 <!-- menu -->
