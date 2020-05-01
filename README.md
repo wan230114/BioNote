@@ -23,10 +23,11 @@
 <h3> 笔记总目录 </h3>
 
 <!-- menu -->
+* [**作者简历**](/docs/me.md)
 * **生物基础部分**
     <!-- menu_base -->
     * [Introduction 前言](/docs/00.Base/Introduction.md)
-    * [Chapter01.生物学简介](/docs/00.Python/Chapter01.PythonReview.md)
+    * [Chapter01.生物学简介](/docs/00.Base/Introduction.md)
     * [附录](/docs/00.Python/ChapterN_Appendix.md)
     <!-- menu_base -->
 * **生物数据库**
