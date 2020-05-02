@@ -3,7 +3,7 @@
 ## 1.1. 基本信息
   
 <div style="float:right">  
-<img src="https://gitee.com/wan230114/images/raw/master/Info/head2.png" width="140" >  
+<img src="https://gitee.com/wan230114/images/raw/master/Info/head4.png" width="140" >  
 <!-- <img src="https://p1.ssl.qhimg.com/t017c2ba08a130120e1.jpg" width="140" >   -->
 <!-- <img src="./img/head2.png" width="140" >   -->
 </div>  
@@ -232,8 +232,8 @@
   
 由于部分文章在CSDN中的公布，甚至获得了一位图书编辑的私聊。  
   
-项目地址：https://wan230114.github.io/PythonNote  
-网站访问主页：https://github.com/wan230114/PythonNote  
+项目地址：https://github.com/wan230114/PythonNote  
+网站访问主页：https://wan230114.github.io/PythonNote  
   
 ### 3.2.3. 在线教育培训课程视频的抓取
   
@@ -273,8 +273,8 @@ Pywget下载模块的编写与对接使用
 3. 断点续传问题解决：通过请求网址，可以得到请求的服务器对文件是否支持断点续传，若支持，则将文件最后一段截取掉进行续传，从而完成断点续传实现。  
   
 项目地址：https://github.com/wan230114/pywget  
-  
-  
+
+
 # 4. 技能特长
 ## 4.1. 技能/语言
 - Python编程，熟练   
