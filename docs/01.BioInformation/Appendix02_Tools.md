@@ -1,4 +1,4 @@
-附    录  
+# 附 录  
 ## 3.1. 生信信息常用网站  
 ### 3.1.1. 软件  
 #### 3.1.1.1. 导航大全  
@@ -76,13 +76,8 @@ Circos教程收藏
 官网band解析  
 Circos Tutorials: Image Maps - Image Maps - Clickable Cytogenetic Bands // CIRCOS Circular Genome Data Visualization  
 http://www.circos.ca/documentation/tutorials/image_maps/bands/images  
-  
-  
-  
-## 3.3. 生信常见文件  
-### 3.3.1. 基因序列  
-#### 3.3.1.1. fq / fasq  
-略  
-### 3.3.2. 注释文件  
-#### 3.3.2.1. gff  
-略  
+
+# 与人工智能结合：
+
+- 提供一个AlphaFold的PyTorch版
+  https://github.com/Urinx/alphafold_pytorch
