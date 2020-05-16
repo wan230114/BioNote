@@ -11,10 +11,12 @@
 
 > <font font="等线" size="2">**网站主页地址：**   
 > https://wan230114.github.io/BioNote  
+> https://wan230114.gitee.io/BioNote   (备用)  
 >
 > **Git项目主页：**   
 > https://github.com/wan230114/BioNote  
->
+> https://gitee.com/wan230114/BioNote  (备用)
+> 
 <!-- > **快速开始：**  
 > [>> BioNote使用方法](Usage.md) -->
 
