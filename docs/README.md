@@ -3,7 +3,7 @@
 <h2>《生物与信息学探索笔记》</h2>
 
 > 生物与信息学探索笔记，包含了从基本概念、对生命认识的规则定义、度量方法工具的定义、探索方法与工具使用等描述。  
-> 一个开源的知识图谱，进步与分享必将让世界变得更为美好。让我们在踏实打下基础的同时，使用信息处理工具让微观世界生命物质之间的作用与联系理解更加透彻。  
+> 一个开源的知识图谱，共同进步与分享必将让世界变得更为美好。让我们在踏实打下基础的同时，使用信息处理工具让微观世界生命物质之间的作用与联系理解更加透彻。  
 > Take biological study notes.  
 > —— 陈军 1170101471@qq.com 
 
@@ -45,6 +45,7 @@
       * [Chapter02 基因组拼接](01.BioInformation/02Genome/Genome02.Assembly.md)
     * ***Transcriptome 转录组***
       * [Introduction. 简介](01.BioInformation/03Transcriptome/Introduction.md)
+      * [Process. 分析流程](01.BioInformation/03Transcriptome/process.md)
     * ***Proteome 蛋白组***
       * [Introduction. 简介](01.BioInformation/04Proteome/Introduction.md)
     * [附1: 常见名词解释](01.BioInformation/ChapterN_Appendix01_Glossary.md)

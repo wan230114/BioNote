@@ -9,7 +9,7 @@ RNA-seq
 它是一种结果，
 
 
-## 转录组分析流程
+# 转录组分析流程
 
 ![seq](./img/Snipaste_2020-05-13_15-26-12.png)
 
@@ -94,7 +94,7 @@ Padj？
 ## 富集基因
 差异基因是否显著集中在某个功能分类上？
 
-![图 3](images/ebf97438f3d02236c5490ede5032b35259ecfc3ce1fc30f0153e78a1d671e7ff.png)  
+![图 3](img/Introduction_Go.png)  
 
 
 GO分类，功能分类

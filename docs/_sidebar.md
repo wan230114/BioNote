@@ -21,6 +21,7 @@
       * [Chapter02 基因组拼接](01.BioInformation/02Genome/Genome02.Assembly.md)
     * ***Transcriptome 转录组***
       * [Introduction. 简介](01.BioInformation/03Transcriptome/Introduction.md)
+      * [Process. 分析流程](01.BioInformation/03Transcriptome/process.md)
     * ***Proteome 蛋白组***
       * [Introduction. 简介](01.BioInformation/04Proteome/Introduction.md)
     * [附1: 常见名词解释](01.BioInformation/ChapterN_Appendix01_Glossary.md)
