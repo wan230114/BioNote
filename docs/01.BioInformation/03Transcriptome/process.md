@@ -1,6 +1,38 @@
 转录组分析流程
 ---
 
+基本模式：
+> - 软件
+>   - 功能
+>   - 输入
+>   - 输出
+
+大纲：
+- QC		
+  - `fastqc`
+    - 查看reads的总体情况
+    - fastq
+    - QCreport
+  - `trim_qc`
+    - 过滤得到cleanReads
+    - fastq
+    - cleanData.fq.gz
+- 比对Maping
+  - `Hisat2`
+    - 将reads Mapping到基因组上
+    - gtf, fq.gz, fasta 【gtf 转录本信息 可改？】
+    - bam
+- 定量
+  - featureCount【看看内容】
+    - 统计覆盖的reads数
+    - bam
+    - all.id
+
+> featureCount 的坑  
+> - bam错一个，整个结果将不可用。可用samtools views命令看是否正常打开，如`.bam`文件。  
+> 【Stringtie？】每一个bam都有一个gtf，能进行进行单独计算】
+
+
 思维导图：
 
 []
@@ -27,6 +59,17 @@ RNA-seq（目前基本使用这个来做分析，几乎替代表达芯片）
 如图：
 ![图 4](img/数据量.png)  
 
+## 质控
+
+fastqc
+
+FastQC的基本介绍 - 简书【待整理】
+https://www.jianshu.com/p/fe6af418a8bc
+
+## 过滤
+
+【待整理】
+trim_qc
 
 # 2. 比对
 使用 `RNA-seq数据` 比对到 `参考基因组`
@@ -40,13 +83,21 @@ RNA-seq（目前基本使用这个来做分析，几乎替代表达芯片）
   - `STAR`，比对效果最好，但更消耗计算资源（运行更久，内存消耗更多）。
   - 其他说明：
     - 早期：早期华大等公司在用soap、bwa等，现在基本作废，因为他们未切分比对，不要使用他们作转录组。
-    - 后来：tophat的作者声明不要再用tophat，要使用Hisat2（Hisat的第二个版本）。`TopHat + Cufflinks` 软件后来被作者升级为 `Hisat2 + Stringtie`。 `Stringtie`可以进行转录本拼接并预测延伸基因片段以及计算表达量，但一个分析结果并不足以说明延伸基因结构的准确性，需要验证与证明（可能是实验）。
+    - 后来：tophat的作者声明不要再用tophat，要使用Hisat2（Hisat的第二个版本）。
+    - > - `TopHat + Cufflinks` 软件后来被作者升级为 `Hisat2 + Stringtie`。  
+      > - `Stringtie`可以进行转录本拼接预测延伸基因片段以及计算表达量，但一个分析结果并不足以说明延伸基因结构的准确性，需要验证与证明（可能是实验）。  
+      > - 如果实在需要进行基因结构的优化，可以使用`PASA`，对原来基因结构进行重新的拼接组装，可重新发一篇基因结构优化的声明文章。
 - 结果解读：
   - 比对率 Mapped reads(%)，对于大多数动植物而言，基因组做的不差的前提下，比对率 ***在70%以上*** 较为合理。
 
 图示：
 ![图 1](img/Comparison.png)  
 ![图 2](img/Comparison_spliced.png)  
+
+hisat2：
+```bash
+
+```
 
 ## 2.2. 比对到转录组
 
@@ -123,3 +174,41 @@ RNA-seq（目前基本使用这个来做分析，几乎替代表达芯片）
 
 ![图 12](img/标准化方法2.png)  
 
+# IGV可视化
+
+[官网下载](http://software.broadinstitute.org/software/igv/download)
+
+操作步骤：
+1. 选择参考基因组。
+   - 自定义genomo方法：
+     - `Genomes` --> 
+     - `Create genome File...` -->
+     - 填写名称`FASTA file`与`Gene file`文件路径（fasta, gtf）
+2. 导入bam文件(旁边必须带有bai)
+   - 方法：
+     - File --> ...
+
+疑问：
+
+
+# 差异表达分析
+
+待吸收：
+
+- 浅谈p值（p-value是什么） - 简书
+- https://www.jianshu.com/p/4c9b49878f3d
+- Biostatistics(12)常见分布：t分布、卡方分布、F分布 - 简书
+- https://www.jianshu.com/p/60e0d77c848c
+
+
+---
+
+两种方法：
+
+1. deseq2 
+空间缩放系数
+
+2. edgeR 
+4分位
+tmm？均一化方法
+可以算 rpkm / fpkm

@@ -26,7 +26,7 @@ complexheatmap直接作出以下图：
 
 heatmap
 
-WGCA
+WGCNA
 
 生存分析
 

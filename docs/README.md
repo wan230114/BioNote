@@ -54,9 +54,19 @@
     * [附2: 常见工具收集](01.BioInformation/ChapterN_Appendix02_Tools.md)
     * [附3: 常见文件格式含义](01.BioInformation/ChapterN_Appendix03_File_meaning.md)
     * *...*
-* **生信分析的常见流程**
+* **生信分析的常见思路**
     * [Chapter01. Variation](01.BioInformation/Process/Chapter01.Variation.md)
     * *...*
+* **专题：表观遗传学**
+    * [Introduction. 简介](01.BioInformation/Topic.Epigenetics/Introduction.md)
+* **专题：R语言入门**
+    * [Introduction. 简介](Appendix01_R_base/Chapter01.Introduction.md)
+    * [Summary. 简易总结](Appendix01_R_base/r-base.md)
+    * ***常见包的使用***
+      * [Navigation. 导读](Appendix01_R_base/pacages/Introduction.md)
+* **文献阅读笔记**
+    * [Navigation. 导读](Appendix_PaperNote/Introduction.md)
+
 <!-- * **附 录** -->
 <!-- menu -->
 

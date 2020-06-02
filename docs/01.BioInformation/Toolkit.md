@@ -29,3 +29,11 @@
     fasta formatter -i genome.fa -o genome _format.fa -w 70
     ```
 
+# 数据整合
+
+## MultiQC
+
+官网链接：https://multiqc.info/
+
+描述：整合各大分析结果的一个高效小工具。例如，featureCount、FastQC、BWA的比对结果等整合。
+
