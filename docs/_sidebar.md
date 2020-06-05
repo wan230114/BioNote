@@ -1,7 +1,7 @@
 <!-- menu -->
 * **Foreword -->**
     <!-- * [Introduction 前言](Introduction.md) -->
-    * [个人简历](Interview/me.md)
+    * [Personal resume](Interview/me.md)
 * **生物基础部分**
     <!-- menu_base -->
     * [Introduction. 简介](00.BioBase/Introduction.md)

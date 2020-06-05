@@ -27,7 +27,7 @@
 <!-- menu -->
 * **Foreword -->**
     <!-- * [Introduction 前言](/docs/Introduction.md) -->
-    * [个人简历](/docs/Interview/me.md)
+    * [Personal resume](/docs/Interview/me.md)
 * **生物基础部分**
     <!-- menu_base -->
     * [Introduction. 简介](/docs/00.BioBase/Introduction.md)
@@ -58,7 +58,8 @@
     * [Chapter01. Variation](/docs/01.BioInformation/Process/Chapter01.Variation.md)
     * *...*
 * **专题：表观遗传学**
-    * [Introduction. 简介](/docs/01.BioInformation/Topic.Epigenetics/Introduction.md)
+    * [Introduction. 简介](/docs/01.BioInformation/Theme_Epigenetics/Introduction.md)
+    * [Chapter01. 转录](/docs/01.BioInformation/Theme_Epigenetics/Chapter01_Transcription.md)
 * **专题：R语言入门**
     * [Introduction. 简介](/docs/Appendix01_R_base/Chapter01.Introduction.md)
     * [Summary. 简易总结](/docs/Appendix01_R_base/r-base.md)
