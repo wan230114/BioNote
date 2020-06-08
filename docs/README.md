@@ -58,7 +58,7 @@
     * [Chapter01. Variation](01.BioInformation/Process/Chapter01.Variation.md)
     * *...*
 * **专题：表观遗传学**
-    * [Introduction. 简介](01.BioInformation/Topic.Epigenetics/Introduction.md)
+    * [Introduction. 简介](Theme_Epigenetics/Introduction.md)
 * **专题：R语言入门**
     * [Introduction. 简介](Appendix01_R_base/Chapter01.Introduction.md)
     * [Summary. 简易总结](Appendix01_R_base/r-base.md)

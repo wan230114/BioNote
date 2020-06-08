@@ -4,7 +4,6 @@ encode
 
 TCGA
 
-
 - GENCODE  
 GENCODE是基因组研究的科学项目，也是ENCODE（DNA元素百科全书）扩展项目的一部分。GENCODE联盟最初是在ENCODE项目的试验阶段的一部分，旨在识别和定位ENCODE区域（约占人类基因组的1％）中的所有蛋白质编码基因。
 - Ensembl  

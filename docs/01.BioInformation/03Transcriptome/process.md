@@ -94,11 +94,6 @@ trim_qc
 ![图 1](img/Comparison.png)  
 ![图 2](img/Comparison_spliced.png)  
 
-hisat2：
-```bash
-
-```
-
 ## 2.2. 比对到转录组
 
 ***慎用！！***
