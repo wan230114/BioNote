@@ -3,7 +3,7 @@
 ## 简介
 
 ChIP-Seq 简介及目的：
-- 我的概括：研究蛋白质（如转录因子、增强子）等到底是结合在基因组的哪一个具体位置的。【概括的怎么样？】  
+- 我的概括：研究蛋白质（如转录因子、增强子）等到底是结合在基因组的哪一个具体位置的，从而可以清晰表述转录调控机制。【概括的怎么样？】  
 
 Chip-seq：  
 - 染色质免疫共沉淀技术（Chromatin Immunoprecipitation，ChIP）也称结合位点分析法，研究体内蛋白质与DNA相互作用的一种方法，通常用于转录因子结合位点或组蛋白特异性修饰位点的研究。
@@ -22,7 +22,7 @@ Chip-seq：
 
 流程1，简介[^1]：
 - 质量控制， 用到的是FastQC
-- 序列比对，Bowtie2或这BWA
+- 序列比对，Bowtie2或者BWA
 - peak calling, 建议用MACS
 - peak注释， 推荐Y叔的ChIPseeker
 
@@ -103,8 +103,70 @@ Chip-seq中设置的对照是什么？如何理解这个对照？这个对照测
 > 没有抗体 ("mock IP")  
 > 没有特定的抗体 (IgG "mock IP")  
 
-# 参考
+# 听讲
+比对后，去除某些区域，原因有可能是重复序列
+- bedtools可以去除bam
+MS --> 
+SPP --> TF
 
+生物学重复的两个样本，peak有一点交集就可以说是同一个peak
+
+
+生成bed（处理多样本的bed区域问题）  
+bedtools  
+- 合并，merge。样品较少
+- A - B
+- 并集。应用，多个样品确定最准确的peak区域
+
+featurecount、deeptools  
+- 定量
+
+|      | bam1 | bam2 |
+| ---- | ---- | ---- |
+| bed1 | 123  | 132  |
+| bed2 | 123  | 132  |
+
+deeptools:
+- bam --> bw
+  1. 连续的。bin是从全基因组划分。（看整体）
+  2. 非连续的。 <-- bed。（看局部）
+- 画heatmap
+  - A基因 10个peak结合在TSS两侧
+  - B基因 8个peak
+  - C基因 5个
+- PCA 【PCA的计算方法？】
+  - bam --> PCA
+    - peak-sample 【转置问题】
+      - 目的：检测样本重复性，样本聚类。
+
+DiffBind:
+- 封装了bedtools, deeptools, DESeq2
+
+
+ANno
+- 4种方法
+
+motif
+
+Pfam矩阵
+- 基于denovo
+- 基于Pfam数据库
+
+统计频数
+|     |  1  |  2  |  3  |  4  |  5  | ... | 200 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| A   | 60% |     |     |     |     |     |     |
+| G   | 10% |     |     |     |     |     |     |
+| T   | 0%  |     |     |     |     |     |     |
+| C   | 30% |     |     |     |     |     |     |
+|     | A   | ... |     |     |     |     |     |
+
+
+Stand-shift
+
+CTCF
+
+# 参考
 
 - [ ] [第1篇：ATAC-seq的背景介绍以及与ChIP-Seq的异同 - 简书](https://www.jianshu.com/p/87bc2002e82c)  
   【详细的表观遗传介绍，对比ATAC等技术一起介绍，有很多东西尚待挖掘】
@@ -121,3 +183,7 @@ Chip-seq中设置的对照是什么？如何理解这个对照？这个对照测
 
 [^2]: - [x] [ChIP-seq简介 - 简书](https://www.jianshu.com/p/a17f2870addd)  
   【步骤简介+图解】
+
+
+
+

@@ -15,7 +15,7 @@
 ## 2.1. deeptools
 简介：  
 - deepTools 是一套基于python开发的工具，适用于有效处理分析高通量测序数据，可用于ChIP-seq, RNA-seq 或 MNase-seq。
-- 
+- BAM和bigWig文件处理、质量控制工具、热图和汇总图、杂项
 
 命令汇总：
 - Tools for BAM and bigWig file processing

@@ -47,9 +47,10 @@ http://blog.sciencenet.cn/blog-1339458-815241.html
 
 ## 1.4. samtools
 
-## 构建索引示例
 
-### 使用
+## 示例
+
+### 构建索引
 
 构建INDEX
 ```bash
@@ -59,13 +60,17 @@ name=Rattus_norvegicus
 
 ##########################################
 ## File preparation (cpu:24, ram:196G)
+## The most recent test:
+## hisat2: 166G, bowtie2: 13G, bwa: 
 ##########################################
 
 workdir=`pwd`
 mkdir -p hisat2_index bowtie2_index bwa_index
-ls *.gz|sed 's/\(.\)\{3\}$//'|xargs -i echo "zcat data/{}.gz >{}"|sh  # 解压
-genome=`ls *.fa`
-gene=`ls *.gtf`
+# 请手动执行
+ls data/|sed 's/\(.\)\{3\}$//'|xargs -i echo "zcat data/{}.gz >{}"  # 解压
+genome=`realpath *.fa`
+gene=`realpath *.gtf`
+echo ${genome} ${gene}
 
 ##########################################
 ### hisat2_index
@@ -83,15 +88,51 @@ hisat2-build -p 30 --ss ${index}'.ss' --exon ${index}'.exon' ${genome} ${index} 
 ##########################################
 index=${workdir}/bowtie2_index/${name}
 cd ${workdir}/bowtie2_index/
-bowtie2-build ${gene} ${index}
+bowtie2-build ${genome} ${index} &>${workdir}/bowtie2_index/index.log
 
 ##########################################
 ### bwa_index
 ##########################################
 index=${workdir}/bwa_index/${name}
 cd ${workdir}/bwa_index/
-bwa index -p ${index} -a bwtsw ${gene}
+bwa index -p ${index} -a bwtsw ${genome} &>${workdir}/bwa_index/index.log
 # -a [is|bwtsw]   构建index的算法，有两个算法： 
 # is 是默认的算法，虽然相对较快，但是需要较大的内存，当构建的数据库大于2GB的时候就不能正常工作了。
 # bwtsw 对于短的参考序列式不工作的，必须要大于等于10MB, 但能用于较大的基因组数据，比如人的全基因组。
+```
+
+### 比对
+
+```bash
+cd ~/work/2020-06-08.docker_result/test_align/
+
+workdir=`pwd`
+mkdir 01.hisat2 02.bowtie2 03.bwa RNAseq -p
+
+cd ${workdir}/RNAseq
+# 网页：https://www.ncbi.nlm.nih.gov/sra/SRX8370416[accn]
+# proxychain4 wget https://sra-download.ncbi.nlm.nih.gov/traces/sra46/SRR/011542/SRR11819458
+# proxychain4 wget https://storage.googleapis.com/sra-pub-src-12/SRR11819458/3F_S2_L001_R1_001.fastq.gz.1 https://sra-pub-src-12.s3.amazonaws.com/SRR11819458/3F_S2_L001_R2_001.fastq.gz.1
+# fastq-dump SRR11819476
+# fastqc SRR11819476.fastq
+# trim_galore -q 25 --phred33 --length 25 --stringency 3 -o ./cleandata SRR11819476.fastq
+# fq=`realpath ./cleandata/SRR11819476_trimmed.fq` 
+
+clean1=/home/chenjun/work/2020-05-25.RNA_test/00.QC/01.cleandata/B2_L4_304304.R1_val_1.fq.gz
+clean2=/home/chenjun/work/2020-05-25.RNA_test/00.QC/01.cleandata/B2_L4_304304.R2_val_2.fq.gz
+
+# refpath: /home/chenjun/work/2020-05-25.RNA_test/01.Mapping/test/test_1_to_bam.sh
+cd ${workdir}/01.hisat2
+index=/home/chenjun/work/2020-06-08.docker_result/hisat2_index/Rattus_norvegicus
+# genome=/home/chenjun/work/2020-06-08.docker_result/Rattus_norvegicus.Rnor_6.0.dna.toplevel.fa
+# gene=/home/chenjun/work/2020-06-08.docker_result/Rattus_norvegicus.Rnor_6.0.100.gtf
+hisat2 -p 20 --dta -x $index -1 ${clean1} -2 ${clean2} |samtools view -bS >B2.bam 2>log
+
+cd ${workdir}/02.bowtie2
+index=/home/chenjun/work/2020-06-08.docker_result/bowtie2_index/Rattus_norvegicus
+bowtie2 -p 4 -x ${index} -1 ${clean1} -2 ${clean2} |samtools view -bS >B2.bam 2>log
+
+cd ${workdir}/03.bwa
+index=/home/chenjun/work/2020-06-08.docker_result/bwa_index/Rattus_norvegicus
+bwa mem -t 4 ${index} ${clean1} ${clean2} |samtools view -bS >B2.bam 2>log
 ```
