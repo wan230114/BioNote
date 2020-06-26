@@ -7,10 +7,6 @@
 
 算法： split align
 
-命令：
-```bash
-
-```
 命令解析：
 > 
 示例(与samtools联用)：
@@ -27,25 +23,49 @@ hisat2 -p 8 --dta \
 
 ## 1.2. bowtie2
 
+Bowtie2用法祥解 | 陈连福的生信博客
+http://www.chenlianfu.com/?p=178
+
 ## 1.3. bwa
-BWA的安装
-```bash
-# 1.下载BWA
-wget http://sourceforge.net/projects/bio-bwa/files/bwa-0.7.10.tar.bz2/download
-# 2.解压
-tar jxvf bwa-0.7.10.tar.bz2
-# 3.编译
-cd bwa-0.7.10
-make
-```
-Samtool安裝
-
-
-科学网—高通量测序数据的比对小结----bwa、bowtie、bowtie2、samtools - 张志斌的博文
-http://blog.sciencenet.cn/blog-1339458-815241.html
 
 
 ## 1.4. samtools
+
+```bash
+IN=01.hisat/B4_L4_306306.sam
+OUT=01.hisat/B4_L4_306306.bam
+samtools sort -@ 20 -o ${OUT} ${IN} &>/dev/null
+# rm 01.hisat/B4_L4_306306.sam
+```
+
+bam文件的拆分：  
+（注：一定要加头文件）
+
+```bash
+inbam=test.bam
+samtools view -bS <(samtools view -H ${inbam}; samtools view ${inbam}|sed '1~2p') >${inbam%.bam}_1.bam
+samtools view -bS <(samtools view -H ${inbam}; samtools view ${inbam}|sed '2~2p') >${inbam%.bam}_2.bam
+
+# 一次IO的高效写法【已测试，效率还不如读两次】
+ls *nodup.bam|while read inbam; do
+    echo $inbam  # YJ-BEAS-2B-RNA-II_BKDL190838938-1a_1.merged.nodup.bam
+    >${inbam%.bam}_1.bam;  # clean
+    >${inbam%.bam}_2.bam;  # clean
+    p=1;
+    samtools view ${inbam}|while read line;
+    do
+        ((x=$x*-1));
+        if [ $x -eq 1 ];
+            then echo $line >>${inbam%.bam}_1.bam;
+            else echo $line >>${inbam%.bam}_2.bam;
+        fi;
+    done
+done
+```
+
+---
+refs:  
+- [科学网—高通量测序数据的比对小结----bwa、bowtie、bowtie2、samtools - 张志斌的博文](http://blog.sciencenet.cn/blog-1339458-815241.html)
 
 
 ## 示例
@@ -135,4 +155,13 @@ bowtie2 -p 4 -x ${index} -1 ${clean1} -2 ${clean2} |samtools view -bS >B2.bam 2>
 cd ${workdir}/03.bwa
 index=/home/chenjun/work/2020-06-08.docker_result/bwa_index/Rattus_norvegicus
 bwa mem -t 4 ${index} ${clean1} ${clean2} |samtools view -bS >B2.bam 2>log
+```
+
+# 定量
+
+## featureCounts
+
+```bash
+gtf=/home/gzsc/genomic/Homo_sapiens/UCSC/hg38/current/current_gtf/homo_sapiens/Homo_sapiens.GRCh38.98.chr.gtf
+featureCounts -T 12 -p -t exon -g gene_id  -a ${gtf} -o all.id.txt 01.hisat/*.bam  1>log.featureCounts 2>&1
 ```

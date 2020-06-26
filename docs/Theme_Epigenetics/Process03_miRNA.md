@@ -20,7 +20,7 @@ miRNA被RNA聚合酶II和III转录，生成前体，这些前体经历一系列�
    - 通过[网络搜集资源](https://mp.weixin.qq.com/s/smntpfpeLqzhnykfd5IJpg)。这些数据库一般是通过预测miRNA种子区与mRNA的结合情况来预测靶基因。主要遵循以下几个基本原则：
      - miRNA 与其靶位点的互补性；
      - miRNA 靶位点在不同物种之间的保守性；
-     - miRNA-mRNA双链之间的热稳定性；
+     - miRNA-mRNA 双链之间的热稳定性；
      - miRNA 靶位点处不应有复杂的二级结构等。
 
 ***疑惑：***
@@ -46,7 +46,7 @@ miRNA被RNA聚合酶II和III转录，生成前体，这些前体经历一系列�
 ### 2016-Nature-Scientific_Reports
 
 > 简要地说，将原始读段置于Illumina管线过滤器（Solexa 0.3）中，然后使用内部程序ACGT101-miR（美国德克萨斯州休斯顿的LC Sciences）进一步处理该数据集，以除去衔接子二聚体，垃圾，低复杂度，常见RNA家族（rRNA，tRNA，snRNA，snoRNA）和重复序列。  
-> 
+
 
 ### 2018-SpringLink:   
   [Bioinformatic Analysis of MicroRNA Sequencing Data | SpringerLink](https://kami.app/Nr0lRgAOmSMd)   
@@ -116,6 +116,8 @@ DHAV-3感染小鸭肝脏中的免疫相关miRNA-mRNA调控网络|BMC基因组学
   该文章给出了miRNA和mRNA下载数据
 - [miRNA的特征、功能及识别方法等详解_高锦的博客-CSDN博客](https://blog.csdn.net/herokoking/article/details/77863126)  
   该文章总结了大量的靶基因预测方法
+- [优化miRNA-seq数据预处理](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4652620/)
+  该文中给出了不同软件对比的参数，
 
 # 我的小结
 ## 数据准备
