@@ -32,6 +32,7 @@ L_jobs = []
 with open('./README.md', 'rb') as fi:
     doc = fi.read().replace(b'/docs/', b'')
     L_jobs.extend(
+        # [('./docs/_sidebar.md',
         [('./docs/_sidebar.md',
           macth(rb'<!-- menu -->.*?<!-- menu -->', doc)),
          ('./docs/00.Python/Introduction.md',
@@ -39,7 +40,7 @@ with open('./README.md', 'rb') as fi:
          ]
     )
 
-write_info('./docs/README.md', doc)
+# write_info('./docs/README.md', doc)
 
 for filename, L_job in L_jobs:
     if L_job:

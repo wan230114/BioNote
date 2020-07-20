@@ -1,3 +1,8 @@
 {
-    "python.pythonPath": "/home/chenjun/software/linux_tools/miniconda3/bin/python"
+    "python.pythonPath": "/home/chenjun/software/linux_tools/miniconda3/bin/python",
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#610020",
+        "titleBar.activeBackground": "#88012D",
+        "titleBar.activeForeground": "#FFFBFC"
+    }
 }

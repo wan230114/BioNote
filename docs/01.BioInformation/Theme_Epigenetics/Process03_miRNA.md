@@ -14,7 +14,7 @@ miRNA被RNA聚合酶II和III转录，生成前体，这些前体经历一系列�
 ***这个过程中需要思考的问题***  
 1. 如何保证我们的miRNA的reads和参考基因组比对上的序列就是miRNA区域序列？
    - 2020-BMC论文中，通过双重去除。通过`blastall`识别和去除rRNA，scRNA，snoRNA，snRNA和tRNA。通过`bowtie`比对上exons, introns, and repeat sequences were removed.
-   - 2018-biorxiv论文中，采用注释的方法直接找出对应的miRNA区域，对未注释到的直接进行新miRNA预测。如软件miRge 2.0，通过各种搜索库对reads添加注释，包括成熟的miRNA，miRNA发夹，mRNA，tRNA，snoRNA，rRNA，其他非编码RNA和（可选）已知的RNA插入序列（27,28）。
+   - 2018-biorxiv论文中，采用注释的方法直接找出对应的miRNA区域，对未注释到的直接进行新miRNA预测。如软件`miRge 2.0`，通过各种搜索库对reads添加注释，包括成熟的miRNA，miRNA发夹，mRNA，tRNA，snoRNA，rRNA，其他非编码RNA和（可选）已知的RNA插入序列（27,28）。
 2. 如何进行miRNA的靶基因预测，原理是什么？
    - 2020-BMC论文中，通过`Mireap_v0.2`进行发夹RNA判断，预测miRNA？
    - 通过[网络搜集资源](https://mp.weixin.qq.com/s/smntpfpeLqzhnykfd5IJpg)。这些数据库一般是通过预测miRNA种子区与mRNA的结合情况来预测靶基因。主要遵循以下几个基本原则：

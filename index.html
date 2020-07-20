@@ -42,11 +42,21 @@
       padding-top: 10px;
     }
   </style>
+
+  <!-- 离线模式 -->
+  <script>
+    if (typeof navigator.serviceWorker !== 'undefined') {
+      navigator.serviceWorker.register('.js/own/sw.js')
+    }
+  </script>
+
 </head>
 
 
 <body>
   <div id="app"></div>
+
+
   <script>
     window.$docsify = {
       coverpage: false,    //主页
@@ -79,7 +89,7 @@
       ga: 'UA-161196727-2',
       formatUpdated: '{MM}/{DD} {HH}:{mm}',
       noCompileLinks: ['/foo', '/bar/.*'],  //不处理的链接地址
-      basePath: 'docs/',
+      // basePath: 'docs/',
       externalLinkTarget: '_target',  //当前默认为 _blank, 配置一下就可以
       name: '《生物与信息学探索笔记》',
       // name: '<font color="#42a5f5" face="楷体">《Python学习之极简笔记》</font>',

@@ -28,9 +28,56 @@ http://www.chenlianfu.com/?p=178
 
 ## 1.3. bwa
 
+---
+
+> bwa samtools bowtie2大杂烩 - 简书
+> https://www.jianshu.com/p/67b203cc0779
+
+PE（paired end）
+```bash
+bwa mem -t 18 \
+    /path/to/ref.seq.fa \
+    /path/to/rawdata/RP01G9E1L3/RP01G9E1L3_R1.fq.gz \
+    /path/to/rawdata/RP01G9E1L3/RP01G9E1L3_R2.fq.gz \
+  |samtools view -buhS -t /path/to/ref.seq.fa.fai - \
+  |samtools sort -n -o Cleandata_sample1_Rd12.vdjab.bam -
+```
+
+SE （single end）
+```bash
+bwa mem -t 18 \
+    /path/to/ref.seq.fa \
+    /path/to/rawdata/RP01G9E1L3/RP01G9E1L3_R1.fq.gz \
+  |samtools view -buhS -t /path/to/ref.seq.fa.fai - \
+  |samtools sort -n -o sample1_R1.vdjab.bam -
+```
 
 ## 1.4. samtools
 
+---
+待吃透：
+* [ ] [samtools常用命令总结 - 简书](https://www.jianshu.com/p/c48c36affff7)
+
+---
+
+### view
+
+[[SAMtools] 常用指令总结 - 萧飞IDO - 博客园](https://www.cnblogs.com/xiaofeiIDO/p/6805373.html)
+
+```bash
+# 提取比对到参考基因组上的数据
+samtools view -bF 4 test.bam > test.F.bam
+# 提取没有比对到参考基因组上的数据
+samtools view -bf 4 test.bam > test.f.bam
+```
+
+### index
+
+```bash
+
+```
+
+### sort
 ```bash
 IN=01.hisat/B4_L4_306306.sam
 OUT=01.hisat/B4_L4_306306.bam
@@ -38,6 +85,7 @@ samtools sort -@ 20 -o ${OUT} ${IN} &>/dev/null
 # rm 01.hisat/B4_L4_306306.sam
 ```
 
+### split
 bam文件的拆分：  
 （注：一定要加头文件）
 
@@ -63,9 +111,87 @@ ls *nodup.bam|while read inbam; do
 done
 ```
 
+### [samtools]flagstat命令简介
+
+samtools flagstat命令简介：
+
+统计输入文件的相关数据并将这些数据输出至屏幕显示。每一项统计数据都由两部分组成，分别是QC pass和QC failed，表示通过QC的reads数据量和未通过QC的reads数量。以“PASS + FAILED”格式显示。还可以根据samtools的标志位显示相应的内容，但是这里不做讨论。
+
+命令格式：
+
+```bash
+samtools flagstat <in.bam> |<in.sam> | <in.cram>
+```
+
+运行flagstat命令得到的结果如下图所示。
+
+```
+115129715 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 secondary
+3903 + 0 supplementary
+0 + 0 duplicates
+535869 + 0 mapped (0.47% : N/A)
+115125812 + 0 paired in sequencing
+57562906 + 0 read1
+57562906 + 0 read2
+513698 + 0 properly paired (0.45% : N/A)
+514954 + 0 with itself and mate mapped
+17012 + 0 singletons (0.01% : N/A)
+0 + 0 with mate mapped to a different chr
+0 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+
+从第一行至第十一行分别表示：
+1. QC pass的reads的数量为2499917，未通过QC的reads数量为0，意味着一共有2499971条reads；
+2. 重复reads的数量，QC pass和failed
+3. 比对到参考基因组上的reads数量；
+4. paired reads数据数量；
+5. read1的数量；
+6. read2 的数量；
+7. 正确地匹配到参考序列的reads数量；
+8. 一对reads都比对到了参考序列上的数量，但是并不一定比对到同一条染色体上；
+9. 一对reads中只有一条与参考序列相匹配的数量；
+10. 一对reads比对到不同染色体的数量；
+11.一对reads比对到不同染色体的且比对质量值大于5的数量。
+
+版权声明：本文为CSDN博主「BlueWing2000」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/u013553061/article/details/53402232
+
 ---
 refs:  
 - [科学网—高通量测序数据的比对小结----bwa、bowtie、bowtie2、samtools - 张志斌的博文](http://blog.sciencenet.cn/blog-1339458-815241.html)
+
+
+示例：
+```bash
+cd $workdir && mkdir -p 04.mapping_bwa  && cd 04.mapping_bwa
+ls ../01.cleandata/*.gz|awk '{if(NR%2==1){printf $0"\t"}else{print $0}}'|while read x; do
+    read R1 R2 <<< $x
+    name=`basename $R1|cut -f 1 -d "_"`
+    date "+%F %H:%M:%S ${name}"
+
+    # 1) 和病毒比对，mapping，过滤出unmapping
+    bwa mem -t 10 ${bwa_index} ${R1} ${R2} 2>log.bwa.${name}|samtools view -bS >${name}.bam
+    samtools flagstat ${name}.bam >${name}.bam.stat &
+    samtools view -bf 4 ${name}.bam >${name}_unmap.bam &
+
+    # 2) 进行sort，并把它分为两个fq
+    read R1 R2 <<< "`realpath ${name}_unmap_1.fq.gz`  `realpath ${name}_unmap_2.fq.gz`"
+    # 不sort
+    # samtools fastq ${name}_unmap.bam -1 $R1 -2 $R2 -c 6 &>log.bam2fq.${name} &
+    samtools sort -@ 10 -n -o ${name}_unmap.sortname.bam ${name}_unmap.bam
+    samtools fastq ${name}_unmap.sortname.bam -1 $R1 -2 $R2 -c 6 &>log.bam2fq_2.${name} &
+
+    # 3) 使用猴子作为参考进行比对
+    mkdir -p hisat2_unmap_sorted && cd hisat2_unmap_sorted
+    index=$hisat2_index_hou
+    hisat2 -p 10 --dta  -x $index  -1 $R1  -2 $R2 2>log.hisat2.${name}| samtools view -bS >${name}.bam
+    samtools sort ${name}.bam -@ 10 -o ${name}.sorted.bam
+    samtools flagstat ${name}.sorted.bam >${name}.sorted.bam.stat &
+    cd -
+
+done
+```
 
 
 ## 示例
@@ -150,12 +276,14 @@ hisat2 -p 20 --dta -x $index -1 ${clean1} -2 ${clean2} |samtools view -bS >B2.ba
 
 cd ${workdir}/02.bowtie2
 index=/home/chenjun/work/2020-06-08.docker_result/bowtie2_index/Rattus_norvegicus
-bowtie2 -p 4 -x ${index} -1 ${clean1} -2 ${clean2} |samtools view -bS >B2.bam 2>log
+bowtie2 -p 4 -x ${index} -1 ${clean1} -2 ${clean2}  2>log|samtools view -bS >B2.bam
 
 cd ${workdir}/03.bwa
 index=/home/chenjun/work/2020-06-08.docker_result/bwa_index/Rattus_norvegicus
 bwa mem -t 4 ${index} ${clean1} ${clean2} |samtools view -bS >B2.bam 2>log
 ```
+
+
 
 # 定量
 

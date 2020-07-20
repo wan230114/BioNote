@@ -11,13 +11,27 @@
 | 相关基因功能分析   |               |
 
 
+```bash
+macs2 callpeak \
+    -t ${REP1_TA_FILE}.tagAlign.gz \
+    -c ${CONTROL_TA_PREFIX}.tagAlign.gz \
+    -f BED \
+    -n ${PEAK_OUTPUT_DIR}/${CHIP_TA_PREFIX} \
+    -g ${GENOMESIZE} \
+    -p 1e-2 \
+    --nomodel \
+    --shift 0 \
+    --extsize ${FRAGLEN} \
+    --keep-dup all -B --SPMR
+```
+
 # 2. 下游分析软件
 ## 2.1. deeptools
 简介：  
 - deepTools 是一套基于python开发的工具，适用于有效处理分析高通量测序数据，可用于ChIP-seq, RNA-seq 或 MNase-seq。
 - BAM和bigWig文件处理、质量控制工具、热图和汇总图、杂项
 
-命令汇总：
+命令汇总：  
 - Tools for BAM and bigWig file processing
   - multiBamSummary
   - multiBigwigSummary
@@ -52,6 +66,7 @@
 - bigwigCompare
 - computeMatrix
 - alignmentSieve
+
 #### 2.1.2. Tools for QC
 - plotCorrelation
 - plotPCA
@@ -59,16 +74,19 @@
 - bamPEFragmentSize
 - computeGCBias
 - plotCoverage
+
 #### 2.1.3. Heatmaps and summary plots
 - plotHeatmap
 - plotProfile
 - plotEnrichment
+
 #### 2.1.4. Miscellaneous
 - computeMatrixOperations
 - estimateReadFiltering
 
 ---
 参考：
+
 - [ ] [deepTools 3.3.0文档](https://deeptools.readthedocs.io/en/develop/content/list_of_tools.html)【官方文档】
 - [ ] [deepTools 使用指南 - 简书](https://www.jianshu.com/p/2b386dd437d3)【很详细的一个命令汇总（使用表格），有大量挖掘和总结的地方】
 - [ ] [高通量测序数据处理学习记录（四）：DeepTools学习笔记 - 简书
@@ -81,6 +99,9 @@
 - 对基因组坐标的逻辑运算，包括：交集（intersectBed，windowBed），”邻集“（closestBed），补集（complementBed），并集（mergeBed），差集（subtractBed）;
 - 计算覆盖度（coverage）（coverageBed，genomeCoverageBed）；
 
+bam --> bw  
+https://deeptools.readthedocs.io/en/develop/content/tools/bamCoverage.html  
+https://deeptools.readthedocs.io/en/develop/content/feature/effectiveGenomeSize.html  
 
 ## 2.3. rose
 

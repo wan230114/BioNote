@@ -5,6 +5,29 @@
 ## 3.3.1.1. fq / fasq  
 略  
 
+
+# 比对结果
+
+
+## bam解读
+
+简略简介：
+> [科学网—Pacbio Sequel两种bam文件解析 - 卢锐的博文](http://blog.sciencenet.cn/blog-2970729-1086176.html)
+
+
+flag理解：
+> 搜索关键词： `bam flag 77 141 163 83 147`  
+> [2020-06-17 BAM文件flag的释义 - 简书](https://www.jianshu.com/p/57680d72a452  )
+
+第6列理解：  
+- [ ] > [生物信息学100个基础问题 —— 第19题 SAM/BAM中的CIGAR值 - 知乎](https://zhuanlan.zhihu.com/p/35574870)
+【还可以挖掘剩余的99个问题，增长知识】
+
+第12列的理解：
+> 搜索关键词: `bam MD:Z`  
+> [sam/bam格式：源于别人的最全的 - 简书](https://www.jianshu.com/p/13e9102cada7)
+
+
 # 3.3.2. 注释文件  
 ## 3.3.2.1. gff3
 
