@@ -42,21 +42,11 @@
       padding-top: 10px;
     }
   </style>
-
-  <!-- 离线模式 -->
-  <script>
-    if (typeof navigator.serviceWorker !== 'undefined') {
-      navigator.serviceWorker.register('.js/own/sw.js')
-    }
-  </script>
-
 </head>
 
 
 <body>
   <div id="app"></div>
-
-
   <script>
     window.$docsify = {
       coverpage: false,    //主页

@@ -1,3 +1,26 @@
+# 数据的产出
+
+## 去除接头
+
+### cutadapter
+
+```bash
+
+```
+参数理解：
+- -e
+  - ref：[cutadapter 软件使用之二_有大聚跟月月的蒋_新浪博客](http://blog.sina.com.cn/s/blog_c4e3e0620102x7x4.html)
+
+【示例： -j是什么意思】
+```bash
+cutadapt -j 4 -a GATCGGAAGAGCACACGTCTGAACTCC --quality-base 33 -m 10 -O 4 --discard-untrimmed wy-KO-18d-3.R1.clean.fastq.gz> wy-KO-18d-3.R1.clean.trim.fastq
+# -m 10 意思是舍弃掉低于10个碱基的reads
+# --discard-untrimmed 意思是舍弃掉没有adapter的reads
+```
+
+---
+- [ ] [cutadapter_百度搜索](https://www.baidu.com/s?wd=cutadapter&ie=UTF-8)
+
 
 # 1. 比对软件大杂烩
 
