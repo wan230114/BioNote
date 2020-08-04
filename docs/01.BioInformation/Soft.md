@@ -108,33 +108,8 @@ samtools sort -@ 20 -o ${OUT} ${IN} &>/dev/null
 # rm 01.hisat/B4_L4_306306.sam
 ```
 
-### split
-bam文件的拆分：  
-（注：一定要加头文件）
 
-```bash
-inbam=test.bam
-samtools view -bS <(samtools view -H ${inbam}; samtools view ${inbam}|sed '1~2p') >${inbam%.bam}_1.bam
-samtools view -bS <(samtools view -H ${inbam}; samtools view ${inbam}|sed '2~2p') >${inbam%.bam}_2.bam
-
-# 一次IO的高效写法【已测试，效率还不如读两次】
-ls *nodup.bam|while read inbam; do
-    echo $inbam  # YJ-BEAS-2B-RNA-II_BKDL190838938-1a_1.merged.nodup.bam
-    >${inbam%.bam}_1.bam;  # clean
-    >${inbam%.bam}_2.bam;  # clean
-    p=1;
-    samtools view ${inbam}|while read line;
-    do
-        ((x=$x*-1));
-        if [ $x -eq 1 ];
-            then echo $line >>${inbam%.bam}_1.bam;
-            else echo $line >>${inbam%.bam}_2.bam;
-        fi;
-    done
-done
-```
-
-### [samtools]flagstat命令简介
+### flagstat
 
 samtools flagstat命令简介：
 
@@ -213,6 +188,45 @@ ls ../01.cleandata/*.gz|awk '{if(NR%2==1){printf $0"\t"}else{print $0}}'|while r
     samtools flagstat ${name}.sorted.bam >${name}.sorted.bam.stat &
     cd -
 
+done
+```
+
+### rmdup
+
+去重其他方法：
+1. Picard Markduplicates
+2. sambamba markdup
+```bash
+sambamba markdup -t 10 \
+    --overflow-list-size 600000 \
+    --tmpdir='./'  \
+    -r ${name}.raw.bam  \
+    ${name}.rmdup.bam
+```
+
+### 其他自定义操作
+bam文件的拆分：  
+（注：一定要加头文件）
+
+```bash
+inbam=test.bam
+samtools view -bS <(samtools view -H ${inbam}; samtools view ${inbam}|sed '1~2p') >${inbam%.bam}_1.bam
+samtools view -bS <(samtools view -H ${inbam}; samtools view ${inbam}|sed '2~2p') >${inbam%.bam}_2.bam
+
+# 一次IO的高效写法【已测试，效率还不如读两次】
+ls *nodup.bam|while read inbam; do
+    echo $inbam  # YJ-BEAS-2B-RNA-II_BKDL190838938-1a_1.merged.nodup.bam
+    >${inbam%.bam}_1.bam;  # clean
+    >${inbam%.bam}_2.bam;  # clean
+    p=1;
+    samtools view ${inbam}|while read line;
+    do
+        ((x=$x*-1));
+        if [ $x -eq 1 ];
+            then echo $line >>${inbam%.bam}_1.bam;
+            else echo $line >>${inbam%.bam}_2.bam;
+        fi;
+    done
 done
 ```
 

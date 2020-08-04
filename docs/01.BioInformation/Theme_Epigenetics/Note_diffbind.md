@@ -25,7 +25,7 @@
 - [ ] [DiffBind_百度搜索](https://www.baidu.com/s?wd=DiffBind&pn=10&oq=DiffBind&ie=utf-8&usm=2&rsv_pq=f7811a440018b3b6&rsv_t=7dbfjIisvORct6QPHCaM%2FPt1XNGhQBYLfyN1vmE%2F2bvSxSczJlE7sbxar0M&rsv_page=1)
 
 
-# 参考
+# 脚本参考
 
 ## callPeak macs2参数
 
@@ -632,5 +632,5 @@ $ wc -l *Peak
   252778 total
 ```
 
-?? 为什么跟我想的不一样，input的数据量下降，带来的结果，不应该是callPeak数量上升吗，为何不升反降。
+【?? 为什么input的数据量下降，带来的结果，不应该是callPeak数量上升吗，为何不升反降。】
 

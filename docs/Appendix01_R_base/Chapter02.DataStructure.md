@@ -1,12 +1,12 @@
 # 2. R中的数据结构
 
 常见的数据结构
-- 向量 c() # 一维
-- 矩阵 matrix() # 二维
-- 数组 array() # 多维
-- 因子factor()
-- 列表list()
-- 数据框 data.frame()
+- 向量: c() # 一维
+- 矩阵: matrix() # 二维
+- 数组: array() # 多维
+- 因子: factor()
+- 列表: list()
+- 数据框: data.frame()
 
 ## 向量
 
