@@ -1,7 +1,31 @@
-# R语言简介
+# 1. R语言简介
 
+## hello world
 
-## 查看帮助文档
+### 交互模式运行
+```bash
+$ R
+> print("hello")
+[1] "hello"
+> print("world")
+[1] "world"
+```
+
+### 脚本模式运行
+
+将命令保存为文件test.R，文件内容：
+```R
+print("hello")
+print("world")
+```
+
+执行：
+```bash
+Rscrip test.R
+R -e 'source("./test.R", echo=T)'
+```
+
+## 1.1. 查看帮助文档
 > 认识代码的基本方法：
 > - 包含内容是什么？【打印】
 > - 本质是什么？
@@ -11,7 +35,7 @@
 >   - 包括些什么？【有些什么方法】
 >   - 能做什么？【用途及功能】
 
-访问帮助文档：
+### 1.1.1. 访问帮助文档：
 Accessing the help files
 
 (Windows下打开本地帮助文档网页；Linux下直接查看文档；)  
@@ -26,7 +50,7 @@ Accessing the help files
     获取某个包的帮助文档。  
     Find help for a package.  
 
-查看对象属性：
+### 1.1.2. 查看对象属性
 More about an object
 - `str(iris)`  
     获取对象结构的摘要。  
@@ -36,28 +60,20 @@ More about an object
     Find the class an object belongs to.
 
 
-查看"package"中的所有对象【待确切补充】
+### 1.1.3. 查看"package"中的所有对象【待确切补充】
 
 ```R
 ls()  # 查看当前环境变量
 ls("package:package")  # 查看"package"中的所有对象
 ```
 
-## Working Directory
-getwd()
-> Find the current working directory (where inputs are found and outputs are sent).
-
-setwd(‘C://file/path’)
-> Change the current working directory. Use projects in RStudio to set the working directory to the folder you are working in.
-
-
-## 变量、赋值、对象
+## 1.3. 变量、赋值、对象
 
 赋值运算符：
 - `<-`，较为常用
 - `=`，同上一样功能，两者等价。
 
-## 基本打印函数print(x)
+## 1.4. 基本打印函数print(x)
 
 需要注意的是，表达式的输出也会打印到标准输出（不同于Python）
 ```R
@@ -67,7 +83,7 @@ print(name)  # [1] "li"    "shi"   "wu"    "zhang" "feng"
 ```
 
 
-## 基本数据类型
+## 1.5. 基本数据类型
 
 常见的数据结构
 - 向量 c() # 一维
@@ -84,3 +100,4 @@ print(name)  # [1] "li"    "shi"   "wu"    "zhang" "feng"
 - logical 逻辑型
 - NULL
 - NA missing value
+

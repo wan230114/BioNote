@@ -1,5 +1,11 @@
 # 总结
 
+## hg38
+
+[GENCODE - Human Release 34](https://www.gencodegenes.org/human/)
+
+---
+
 encode
 
 TCGA
