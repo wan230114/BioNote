@@ -1,58 +1,15 @@
 # 入门
 ## 访问帮助文档
-Accessing the help files
 
-(Windows下打开本地帮助文档网页；Linux下直接查看文档；)  
 
-- `?mean`  
-    获得特定函数的帮助。  
-    Get help of a particular function.
-- `help.search('weighted mean')`  
-    搜索帮助文件中的单词或短语。  
-    Search the help files for a word or phrase.
-- `help(package = 'dplyr')`  
-    获取某个包的帮助文档。  
-    Find help for a package.  
-
-查看对象属性：
-More about an object
-- `str(iris)`  
-    获取对象结构的摘要。  
-    Get a summary of an object’s structure.
-- `class(iris)`  
-    查找对象所属的类。  
-    Find the class an object belongs to.
-
-查看环境变量：  
-（or 查看"package"中的所有对象）
-- `ls()`  # 查看当前环境变量
-- `ls("package:package")`  # 查看"package"中的所有对象
-
-环境变量
-The Environment
-
-- `ls()`: List all variables in the environment.
-- `rm(x)`: Remove x from the environment.
-- `rm(list = ls())`: Remove all variables from the environment.
-
-You can use the environment panel in RStudio to browse variables in your environment.
-
-变量赋值
-Variable Assignment
-```R
-> a <- 'apple'
-> a
-[1] 'apple'
-```
 
 ## 工作路径的获取与设定
-Working Directory
 
 `getwd()`
 > Find the current working directory (where inputs are found and outputs are sent).
 
 `setwd('C://file/path')`
-> Change the current working directory. Use projects in RStudio to set the working directory to the folder you are working in.
+> 更改当前工作目录。使用RStudio中的项目将工作目录设置为您正在使用的文件夹。
 
 ## 基本数据类型
 Types
@@ -287,6 +244,7 @@ print(j)
 ```
 
 ### If Statements
+
 ```R
 if (condition){
     Do something

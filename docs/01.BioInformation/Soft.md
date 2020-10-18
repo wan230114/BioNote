@@ -33,12 +33,13 @@ cutadapt -j 4 -a GATCGGAAGAGCACACGTCTGAACTCC --quality-base 33 -m 10 -O 4 --disc
 命令解析：
 > 
 示例(与samtools联用)：
+
 ```bash
 hisat2 -p 8 --dta \
     -x /home/gzsc/genomic/Homo_sapiens/UCSC/hg38/current/current_index/hisat2/Homo_sapiens \
     -1 cleandata/B2_L4_304304.R1_val_1.fq.gz \
     -2 cleandata/B2_L4_304304.R2_val_2.fq.gz \
-    |samtools view -bS >B2.bam
+    |samtools sort -m 4G -o B2.bam
 ```
 
 安装：
@@ -46,8 +47,8 @@ hisat2 -p 8 --dta \
 
 ## 1.2. bowtie2
 
-Bowtie2用法祥解 | 陈连福的生信博客
-http://www.chenlianfu.com/?p=178
+> Bowtie2用法祥解 | 陈连福的生信博客
+> http://www.chenlianfu.com/?p=178
 
 ## 1.3. bwa
 
@@ -99,7 +100,13 @@ samtools view -bf 4 test.bam > test.f.bam
 ```bash
 # samtools index 对未索引的文件索引
 #cat bamfile |while read x; do if [ -e "$x.bai" ]; then echo ok $x; else echo $x; fi; done|grep -v ^ok|xargs -i sh -c "samtools index {} &"                       
-cat bamfile |while read x; do if [ -e "$x.bai" ]; then echo ok $x; else echo $x; fi; done|grep -v ^ok|wc -l
+cat bamfile |while read x; do
+    if [ -e "$x.bai" ]; then
+        echo ok $x; 
+    else
+        echo $x;
+    fi;
+done|grep -v ^ok|wc -l
 ```
 
 ### sort
@@ -110,6 +117,24 @@ samtools sort -@ 20 -o ${OUT} ${IN} &>/dev/null
 # rm 01.hisat/B4_L4_306306.sam
 ```
 
+---
+
+测试hisat2与samtools sort联用
+
+```bash
+source /home/chenjun/.conda_bashrc_gzsc; conda activate python27
+
+date "+start: %F %T"
+hisat2 -p 8 --dta -x /home/gzsc/genomic/Homo_sapiens/UCSC/hg38/current/current_index/hisat2/Homo_sapiens -1 ./test.R1.fastq.gz -2 ./test.R2.fastq.gz \
+  |samtools view -bS >B2.bam
+samtools sort -o B2.sorted.bam B2.bam
+date "+end: %F %T"
+
+date "+start: %F %T"
+hisat2 -p 8 --dta -x /home/gzsc/genomic/Homo_sapiens/UCSC/hg38/current/current_index/hisat2/Homo_sapiens -1 ./test.R1.fastq.gz -2 ./test.R2.fastq.gz \
+  |samtools sort -o B2_2.sorted.bam
+date "+end: %F %T"
+```
 
 ### flagstat
 
@@ -152,7 +177,7 @@ samtools flagstat <in.bam> |<in.sam> | <in.cram>
 8. 一对reads都比对到了参考序列上的数量，但是并不一定比对到同一条染色体上；
 9. 一对reads中只有一条与参考序列相匹配的数量；
 10. 一对reads比对到不同染色体的数量；
-11.一对reads比对到不同染色体的且比对质量值大于5的数量。
+11. 一对reads比对到不同染色体的且比对质量值大于5的数量。
 
 版权声明：本文为CSDN博主「BlueWing2000」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 原文链接：https://blog.csdn.net/u013553061/article/details/53402232
@@ -166,6 +191,7 @@ refs:
 ```bash
 cd $workdir && mkdir -p 04.mapping_bwa  && cd 04.mapping_bwa
 ls ../01.cleandata/*.gz|awk '{if(NR%2==1){printf $0"\t"}else{print $0}}'|while read x; do
+
     read R1 R2 <<< $x
     name=`basename $R1|cut -f 1 -d "_"`
     date "+%F %H:%M:%S ${name}"
@@ -322,7 +348,31 @@ index=/home/chenjun/work/2020-06-08.docker_result/bwa_index/Rattus_norvegicus
 bwa mem -t 4 ${index} ${clean1} ${clean2} |samtools view -bS >B2.bam 2>log
 ```
 
+## 去重（有的不需要）
 
+```bash
+java -Xmx4G -XX:ParallelGCThreads=1 -jar /home/ray/biotools/miniconda3/envs/encode-chip-seq-pipeline/share/picard-2.20.7-0/picard.jar MarkDuplicates INPUT=CTT-F3jia-H3K27ac2_L1_P706504.R1.merged.filt.bam OUTPUT=CTT-F3jia-H3K27ac2_L1_P706504.R1.merged.dupmark.bam METRICS_FILE=CTT-F3jia-H3K27ac2_L1_P706504.R1.merged.dup.qc VALIDATION_STRINGENCY=LENIENT USE_JDK_DEFLATER=TRUE USE_JDK_INFLATER=TRUE ASSUME_SORTED=true REMOVE_DUPLICATES=false
+```
+
+## bam转bw
+
+```bash
+bamCoverage -p 8 --bam $bam -o $(basename $bam .bam}.bw --binSize 10 --normalizeUsing RPGC --effectiveGenomeSize 2913022398 &>log_$(basename $bam .bam}.bam2bw.o
+
+ls *bam|while read bam; do echo "bamCoverage -p 4 --bam $bam -o ${bam%.bam}.bw --binSize 10 --normalizeUsing RPGC --effectiveGenomeSize 2913022398 &>log_${bam%.bam}.bam2bw.o"; done >bam2bw.sh
+```
+
+| Genome   | Effective size |
+|----------|----------------|
+| GRCh37   | 2864785220     |
+| GRCh38   | 2913022398     |
+| GRCm37   | 2620345972     |
+| GRCm38   | 2652783500     |
+| dm3      | 162367812      |
+| dm6      | 142573017      |
+| GRCz10   | 1369631918     |
+| WBcel235 | 100286401      |
+| TAIR10   | 119481543      |
 
 # 定量
 
