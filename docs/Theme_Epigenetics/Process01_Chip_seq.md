@@ -109,7 +109,21 @@ Chip-seq中设置的对照是什么？如何理解这个对照？这个对照测
 > 没有抗体 ("mock IP")  
 > 没有特定的抗体 (IgG "mock IP")  
 
-# 2. 听讲
+
+# 2. Chip分析流程
+
+- 比对
+- 检峰
+
+---
+不错的参考文章：
+- [ChIP-seq之检峰 - 简书](https://www.jianshu.com/p/0c272643f88b)  
+  - get到双峰是如何来的（双端测序的两侧）。
+  - get到如何根据蛋白的不同去定义双峰之间的宽度（蛋白类型+macs2预测命令）。
+
+
+# 3. 听讲
+
 比对后，去除某些区域，原因有可能是重复序列
 - bedtools可以去除bam
 MS --> 
@@ -149,7 +163,7 @@ DiffBind:
 - 封装了bedtools, deeptools, DESeq2
 
 
-ANno
+Anno
 - 4种方法
 
 motif
