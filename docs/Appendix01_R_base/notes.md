@@ -95,3 +95,17 @@ for (x in c("all", "up", "down"))
 > get("a")
 [1] "hello"
 ```
+
+
+## 数据分组统计
+
+```R
+# 构造一个很简单的数据，一组人的性别、年龄和身高，可以用aggregate函数来求不同性别的平均年龄和身高
+x <- data.frame(
+  name=c("张三","李四","王五","赵六"),
+  sex=c("M","M","F","F"),
+  age=c(20,40,22,30),
+  height=c(166,170,150,155)
+)
+aggregate(x[,3:4], by=list(sex=x$sex), FUN=mean)
+```

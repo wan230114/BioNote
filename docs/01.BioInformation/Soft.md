@@ -99,14 +99,7 @@ samtools view -bf 4 test.bam > test.f.bam
 
 ```bash
 # samtools index 对未索引的文件索引
-#cat bamfile |while read x; do if [ -e "$x.bai" ]; then echo ok $x; else echo $x; fi; done|grep -v ^ok|xargs -i sh -c "samtools index {} &"                       
-cat bamfile |while read x; do
-    if [ -e "$x.bai" ]; then
-        echo ok $x; 
-    else
-        echo $x;
-    fi;
-done|grep -v ^ok|wc -l
+ls *bam|while read x; do if [ -e "$x.bai" ]; then echo \# $x.bai ok;else echo samtools index $x;fi;  done
 ```
 
 ### sort
