@@ -1,3 +1,13 @@
+# 所有参数模式
+args <- commandArgs()
+print("args <- commandArgs()")
+print(args)
+
+# 纯净参数模式
+args <- commandArgs(T) # 等效于 args <- commandArgs(trailingOnly = TRUE)
+print("args <- commandArgs(T)")
+print(args)
+
 a <- TRUE
 b <- 1
 c <- "1"

@@ -33,10 +33,10 @@ with open('./README.md', 'rb') as fi:
     doc = fi.read().replace(b'/docs/', b'')
     L_jobs.extend(
         # [('./docs/_sidebar.md',
-        [('./docs/_sidebar.md',
+        [('./_sidebar.md',
           macth(rb'<!-- menu -->.*?<!-- menu -->', doc)),
-         ('./docs/00.Python/Introduction.md',
-          macth(rb'<!-- introduction -->.*?<!-- introduction -->', doc))
+         # ('./00.Python/Introduction.md',
+         #  macth(rb'<!-- introduction -->.*?<!-- introduction -->', doc))
          ]
     )
 

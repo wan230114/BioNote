@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/chenjun/miniconda3/bin/python",
+    "python.pythonPath": "/Users/chenjun/miniconda3/envs/dev/bin/python",
     "workbench.colorCustomizations": {
         "activityBar.background": "#610020",
         "titleBar.activeBackground": "#88012D",

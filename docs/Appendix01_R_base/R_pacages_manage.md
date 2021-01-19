@@ -174,48 +174,44 @@ install_version("igraph", version = "0.6.5",
                 repo="http://mirrors.tuna.tsinghua.edu.cn/CRAN/")
 ```
 
+
 ## 4. R包的载入
 
 ### 4.1. R包载入方式
 
-#### 4.1.1. 常规载入
 
 ```R
+# 常规载入
 library("包名")
 require("包名")
+
+# 通过变量指定载入
+pkg <- "包名"
+library(pkg, character.only=TRUE)
+
+# 多个包一起载入
+# Load packages into session
+cran_packages <- c("ggplot2", "gridExtra")
+bioc_packages <- c("dada2", "msa", "phyloseq")
+sapply(c(cran_packages, bioc_packages), require, character.only = TRUE)
+
 ```
 
 > **R中 library 和 require 的区别**  
-> library和require都可以载入包，但二者存在区别。
-> 
-> 在一个函数中，如果一个包不存在，执行到library将会停止执行，require则会继续执行。
-> 
-> 在 http://stackoverflow.com/questions/5595512/what-is-the-difference-between-require-and-library 看到对二者详细的说明。
-> 
-> require将会根据包的存在与否返回true或者false，
-> 
-> ——【[摘自：R中library和require的区别 - todoit - 博客园](https://www.cnblogs.com/todoit/archive/2012/10/24/2736514.html)】
+> - 在一个函数中，如果一个包不存在，执行到library将会停止执行，require则会继续执行。
+> - require将会根据包的存在与否返回true或者false，
+> 参考：
+> - [r - What is the difference between require() and library()? - Stack Overflow](https://stackoverflow.com/questions/5595512/what-is-the-difference-between-require-and-library)
+> - [R中library和require的区别 - todoit - 博客园](https://www.cnblogs.com/todoit/archive/2012/10/24/2736514.html)
 
 
-#### 4.1.2. 多个包一起载入
-
-```R
-##
-.cran_packages <-  c("ggplot2", "gridExtra")
-.bioc_packages <- c("dada2", "msa", "phyloseq")
-# Load packages into session
-sapply(c(.cran_packages, .bioc_packages), require, character.only = TRUE)
-```
-
+---
 ### 4.2. 查看载入的包
 
-查看默认载入的包
 ```R
+# 查看默认载入的包
 getOption("defaultPackages")  # 查看启动R时自动载入的包
-```
-
-查看R中载入的包
-```R
+# 查看R中载入的包
 sessionInfo()  # 查看R中载入的包
 ```
 

@@ -18,6 +18,8 @@ KEGG (Kyoto Encyclopedia of Genes and Genomes)，
 
 KEGG数据库：除了对基因本身功能的注释，我们也知道基因会参与人体的各个通路，基于人体通路而形成的数据库就是通路相关的数据库。而KEGG就是通路相关的数据库的一种。其实通路数据库有很多，类似于wikipathway，reactome都是相关的通路数据库。只是因为KEGG比较被人熟知，所以基本上都做这个分析的。
 
+示例： <https://www.genome.jp/kegg-bin/show_pathway?hsa03013>
+
 #### KO: KEGG Orthology
 KEGG Orthology, 直接存储分子功能的就是 KEGG Orthology 数据库
 

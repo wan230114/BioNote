@@ -109,3 +109,25 @@ x <- data.frame(
 )
 aggregate(x[,3:4], by=list(sex=x$sex), FUN=mean)
 ```
+
+## 文件名去除后缀操作
+
+```R
+finame <- "1.txt.txt"
+finame_tmp <- unlist(strsplit(finame, ".", fixed = TRUE))
+if (length(finame_tmp) > 1) {
+    a <- paste(finame_tmp[1:length(finame_tmp) - 1], sep = ".", collapse = ".")
+} else {
+    a <- finame
+}
+a
+```
+
+## 表的查找
+
+查看是否在一个向量内
+
+```R
+c("19", "24") %in% c("19", "18", "17")
+# [1]  TRUE FALSE
+```

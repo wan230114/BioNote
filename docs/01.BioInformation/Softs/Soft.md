@@ -352,7 +352,11 @@ java -Xmx4G -XX:ParallelGCThreads=1 -jar /home/ray/biotools/miniconda3/envs/enco
 ```bash
 bamCoverage -p 8 --bam $bam -o $(basename $bam .bam}.bw --binSize 10 --normalizeUsing RPGC --effectiveGenomeSize 2913022398 &>log_$(basename $bam .bam}.bam2bw.o
 
+# chip
 ls *bam|while read bam; do echo "bamCoverage -p 4 --bam $bam -o ${bam%.bam}.bw --binSize 10 --normalizeUsing RPGC --effectiveGenomeSize 2913022398 &>log_${bam%.bam}.bam2bw.o"; done >bam2bw.sh
+# mRNA
+ls *bam|while read bam; do echo "bamCoverage -p 4 --bam $bam -o ${bam%.bam}.bw &>log_${bam%.bam}.bam2bw.o"; done >bam2bw.sh
+
 ```
 
 | Genome   | Effective size |
