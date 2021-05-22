@@ -52,6 +52,7 @@ Zscan4c --激活--> MERVL和卵裂期胚胎基因
 ### 实验部分：略
 
 ### 生物信息部分
+
 —— **(ChIP-seq) data analysis**
 
 - pair-ended 25 million reads (150 bp)  

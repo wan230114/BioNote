@@ -2,6 +2,17 @@
 
 ## 去除接头
 
+### trim_galore
+
+```bash
+\_ sh -c trim_galore -q 25 --phred33 --length 25 --stringency 3 --paired -o 02.cleandata/ rawdata_all/Young-H3ac.R1.fastq.gz rawdata_all/Young-H3ac.R2.fastq.gz &>02.cleandata/Young-H3ac.log
+    \_ perl trim_galore -q 25 --phred33 --length 25 --stringency 3 --paired -o 02.cleandata/ rawdata_all/Young-H3ac.R1.fastq.gz rawdata_all/Young-H3ac.R2.fastq.gz
+        \_ sh -c gzip -c - > 02.cleandata/Young-H3ac.R1_trimmed.fq.gz
+        |   \_ gzip -c -
+        \_ python cutadapt -j 1 -e 0.1 -q 25 -O 3 -a AGATCGGAAGAGC rawdata_all/Young-H3ac.R1.fastq.gz
+            \_ pigz -cd rawdata_all/Young-H3ac.R1.fastq.gz
+```
+
 ### cutadapter
 
 ```bash
@@ -319,7 +330,16 @@ cd ${workdir}/RNAseq
 # proxychain4 wget https://storage.googleapis.com/sra-pub-src-12/SRR11819458/3F_S2_L001_R1_001.fastq.gz.1 https://sra-pub-src-12.s3.amazonaws.com/SRR11819458/3F_S2_L001_R2_001.fastq.gz.1
 # fastq-dump SRR11819476
 # fastqc SRR11819476.fastq
-# trim_galore -q 25 --phred33 --length 25 --stringency 3 -o ./cleandata SRR11819476.fastq
+# trim_galore 
+```bash
+     |   |           |   \_ sh -c trim_galore -q 25 --phred33 --length 25 --stringency 3 --paired -o 02.cleandata/ rawdata_all/Young-H3ac.R1.fastq.gz rawdata_all/Young-H3ac.R2.fastq.gz &>02.cleandata/Young-H3ac.log
+      |   |           |       \_ perl /home/chenjun/software/linux_tools/miniconda3/envs/qc/bin/trim_galore -q 25 --phred33 --length 25 --stringency 3 --paired -o 02.cleandata/ rawdata_all/Young-H3ac.R1.fastq.gz rawdata_all/Young-H3ac.R2.fastq.gz
+      |   |           |           \_ sh -c gzip -c - > 02.cleandata/Young-H3ac.R1_trimmed.fq.gz
+      |   |           |           |   \_ gzip -c -
+      |   |           |           \_ /home/chenjun/software/linux_tools/miniconda3/envs/qc/bin/python /home/chenjun/software/linux_tools/miniconda3/envs/qc/bin/cutadapt -j 1 -e 0.1 -q 25 -O 3 -a AGATCGGAAGAGC rawdata_all/Young-H3ac.R1.fastq.gz
+      |   |           |               \_ pigz -cd rawdata_all/Young-H3ac.R1.fastq.gz
+
+-q 25 --phred33 --length 25 --stringency 3 -o ./cleandata SRR11819476.fastq
 # fq=`realpath ./cleandata/SRR11819476_trimmed.fq` 
 
 clean1=/home/chenjun/work/2020-05-25.RNA_test/00.QC/01.cleandata/B2_L4_304304.R1_val_1.fq.gz
@@ -347,12 +367,12 @@ bwa mem -t 4 ${index} ${clean1} ${clean2} |samtools view -bS >B2.bam 2>log
 java -Xmx4G -XX:ParallelGCThreads=1 -jar /home/ray/biotools/miniconda3/envs/encode-chip-seq-pipeline/share/picard-2.20.7-0/picard.jar MarkDuplicates INPUT=CTT-F3jia-H3K27ac2_L1_P706504.R1.merged.filt.bam OUTPUT=CTT-F3jia-H3K27ac2_L1_P706504.R1.merged.dupmark.bam METRICS_FILE=CTT-F3jia-H3K27ac2_L1_P706504.R1.merged.dup.qc VALIDATION_STRINGENCY=LENIENT USE_JDK_DEFLATER=TRUE USE_JDK_INFLATER=TRUE ASSUME_SORTED=true REMOVE_DUPLICATES=false
 ```
 
-## bam转bw
+## bamCoverage  --  bam转bw
 
 ```bash
 bamCoverage -p 8 --bam $bam -o $(basename $bam .bam}.bw --binSize 10 --normalizeUsing RPGC --effectiveGenomeSize 2913022398 &>log_$(basename $bam .bam}.bam2bw.o
 
-# chip
+# chip  （ --binSize / --effectiveGenomeSize 【TODO？需要进一步确认】）
 ls *bam|while read bam; do echo "bamCoverage -p 4 --bam $bam -o ${bam%.bam}.bw --binSize 10 --normalizeUsing RPGC --effectiveGenomeSize 2913022398 &>log_${bam%.bam}.bam2bw.o"; done >bam2bw.sh
 # mRNA
 ls *bam|while read bam; do echo "bamCoverage -p 4 --bam $bam -o ${bam%.bam}.bw &>log_${bam%.bam}.bam2bw.o"; done >bam2bw.sh
@@ -376,6 +396,7 @@ ls *bam|while read bam; do echo "bamCoverage -p 4 --bam $bam -o ${bam%.bam}.bw &
 ## featureCounts
 
 ```bash
-gtf=/home/gzsc/genomic/Homo_sapiens/UCSC/hg38/current/current_gtf/homo_sapiens/Homo_sapiens.GRCh38.98.chr.gtf
+gtf="/home/gzsc/genomic/Homo_sapiens/UCSC/hg38/current/current_gtf/homo_sapiens/Homo_sapiens.GRCh38.98.chr.gtf"
 featureCounts -T 12 -p -t exon -g gene_id  -a ${gtf} -o all.id.txt 01.hisat/*.bam  1>log.featureCounts 2>&1
 ```
+

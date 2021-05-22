@@ -22,6 +22,15 @@ args <- commandArgs(trailingOnly = TRUE)
 a <- args[1] # in.bed  a<-"HX_5637.bed"
 ```
 
+
+
+# read文件的一些细节
+
+```R
+read.table(inmat, header = T, stringsAsFactors = F, sep = "\t", row.names = 1)
+
+```
+
 # 常见操作
 ## 去除NA、去重、排序
 
@@ -47,6 +56,8 @@ write.table(unique(sort(na.omit(a$SYMBOL))),
 ```
 
 # 矩阵操作
+
+
 ## 如何从矩阵筛选特定的行或列
 
 试定义如下矩阵，取出包括B和C的行，形成新的矩阵？
@@ -130,4 +141,94 @@ a
 ```R
 c("19", "24") %in% c("19", "18", "17")
 # [1]  TRUE FALSE
+```
+
+## 如何做到批量替换
+
+```R
+df <- data.frame(row.names=c("3", "4", "5"), v=c("a", "b", "c"))
+df
+
+# select <- df$v %in% inlist
+# select
+# # c(2, 1) 变为 c("b", "a")
+# df[select,]
+
+df[c("5","4"),]
+
+```
+
+
+# 绘图相关
+
+## 如何设置图片自动调整大小
+
+使用ggplot2, `units = "in"`
+
+```R
+require(ggplot2)
+
+# Bogus data
+x <- rnorm(10000)
+y <- as.factor(round(rnorm(10000, mean = 10, sd = 2), 0))
+df <- data.frame(vals = x, factors = y)
+
+myplot <- ggplot(data = df, aes(x = vals)) +
+    geom_density() +
+    facet_wrap(~factors)
+
+ggsave(filename = "foo.pdf", plot = myplot, width = 8, height = 10, units = "in")
+```
+
+
+## 排序操作
+
+```R
+order(c(140,101,111))  # [1] 2 3 1
+df <- data.frame(k=c("a", "b", "c"), v=c(1, 2, 3))
+df
+
+```
+
+## 挑选以什么开头的数据
+
+```R
+grepl("A_", c("A_1", "A_2", "B_1", "C_1"))
+# [1]  TRUE  TRUE FALSE FALSE
+```
+
+## apply / map /
+
+apply: 将一行或一列传入函数计算
+lapply: 将一行和一列传入函数计算
+
+```R
+m1 <- matrix(C<-(1:6),nrow=2, ncol=3)
+m1
+#      [,1] [,2] [,3]
+# [1,]    1    3    5
+# [2,]    2    4    6
+sum_negative <- function(x) {return(-sum(x))}
+apply(m1, 1, sum_negative)  # 传行 [1]  -9 -12
+apply(m1, 2, sum_negative)  # 传列 [1]  -3  -7 -11
+apply(m1, c(1, 2), sum_negative)
+#      [,1] [,2] [,3]
+# [1,]   -1   -3   -5
+# [2,]   -2   -4   -6
+# 以下计算类似于apply(m1, c(1, 2), sum_negative)
+lapply(m1, sum_negative)  # 输出格式为列表
+sapply(m1, sum_negative)  # 输出格式为向量
+
+apply(m1, 2, function(x) { cat(x[1], x[2], " --- ", x+1,  "---\n"); return(x+1) })
+# apply注意事项，使用该方法得到的矩阵被转置了
+
+
+data(iris)
+head(iris, 2)
+#   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+# 1          5.1         3.5          1.4         0.2  setosa
+# 2          4.9         3.0          1.4         0.2  setosa
+tapply(iris$Sepal.Length, iris$Species, sum)
+# apply()家族还有多个衍生函数，包括vapply、mapply、rapply等...
+
 ```

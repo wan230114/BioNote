@@ -16,6 +16,10 @@ Chip-seq：
 > - ChIP-seq用于鉴定能被某种蛋白质结合的基因组区域。
 
 
+Chip研究已有成熟的数据库：
+- [转录调控研究数据库推荐 | 你要找的ChIP-seq数据都在这里啦！ - 简书](https://www.jianshu.com/p/ec5ae887c16c)
+
+
 ## 1.2. Chip-seq的测序及基本分析流程
 
 ### 1.2.1. workflow
@@ -207,3 +211,8 @@ CTCF
 
 
 
+# 疑惑问题汇总
+
+CHIP 的 input 是什么， input有多重要？ keyword: `chip input 目的`
+
+- [ChIP测序中的input有多重要？实验、数据分析都离不了](http://www.360doc.com/content/19/0218/03/52645714_815766998.shtml)
