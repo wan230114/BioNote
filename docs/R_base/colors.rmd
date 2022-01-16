@@ -1,0 +1,42 @@
+
+## rgb2hex
+
+颜色进制转换
+
+```{r}
+# [wpa source: R/supporting_functions.R](https://rdrr.io/cran/wpa/src/R/supporting_functions.R)
+# [rgb2hex: Convert rgb to HEX code in wpa: Tools for Analysing and Visualising Workplace Analytics Data](https://rdrr.io/cran/wpa/man/rgb2hex.html)
+
+rgb2hex <- function(RGBS) {
+    res <- c()
+    for (RGB in RGBS) {
+        RGB_vector <- (sapply(unlist(strsplit(RGB, ",")), function(x) {
+            as.integer(trimws(x, which = c("both", "left", "right"), whitespace = "[ \t\r\n]"))
+        }))
+        # res <- c(res, grDevices::rgb(r = RGB_vector[1], g = RGB_vector[2], b = RGB_vector[3], maxColorValue = 255))
+        res <- c(res, grDevices::rgb(r = RGB_vector[1], g = RGB_vector[2], b = RGB_vector[3], max = 255))
+        # res <- c(res, plotrix::rgb.to.hex(RGB_vector))
+    }
+    return(res)
+}
+
+# trimws(" x ", which = c("both", "left", "right"), whitespace = "[ \t\r\n]")
+# grDevices::rgb(r, g, b, maxColorValue = 255)
+RGBS <- c("0,0, 0", "1,1,1", "255,255,255")
+print(rgb2hex(RGBS))
+```
+
+
+```{r}
+# 显示颜色名称
+colors()
+# Color Palette使用调色板
+rainbow(5)
+
+# 最终还是转换落到了那256个16进制数上了
+rgb(0,0,1)
+rgb(0,0,1, max=1)
+rgb(0,0,255, max=255)
+rgb(0,0,255*2, max=255*2)
+
+```

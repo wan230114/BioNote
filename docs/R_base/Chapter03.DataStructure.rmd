@@ -1,0 +1,134 @@
+# 2. R中的数据结构
+
+常见的数据结构
+- 向量: c() （一维）
+- 矩阵: matrix() （二维）
+- 数组: array() （多维）
+- 因子: factor()
+- 列表: list()
+- 数据框: data.frame()
+
+## 向量: c() （一维）
+
+存储一维数组
+
+### c()函数对向量的基本创建
+
+- 创建方法：
+  - `c(value1, value2, value3, ...)`
+- 返回：
+  - 与values相同的对象
+
+```{r}
+name = c("li", "shi", "wu", "zhang", "feng")
+name         # [1] "li"    "shi"   "wu"    "zhang" "feng"
+print(name)  # [1] "li"    "shi"   "wu"    "zhang" "feng"
+typeof(name) # [1] "character"
+```
+
+注：当存在字符串类型时，将自动直接全部升级为字符串类型
+```{r}
+c(1,2,3)    # [1] 1 2 3
+typeof(c(1,2,3))    # [1] "double"
+c(1,2,"3")  # [1] "1" "2" "3"
+typeof(c(1,2,"3"))  # [1] "character"
+```
+
+c()还可以用于拼接多个向量：
+```{r}
+> c(c(1,2,3), c(4,5,6))
+[1] 1 2 3 4 5 6
+```
+
+### seq()函数创建
+用法与Python的range()函数类似，不同之处在于可以使步长为非整数值
+
+示例：
+```{r}
+seq(from=5, to=10, by=1)  # [1]  5  6  7  8  9 10
+seq(5, 10, 1)   # [1]  5  6  7  8  9 10
+seq(10, 5, -1)  # [1] 10  9  8  7  6  5
+seq(1, 5, 0.5)  # [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0
+```
+
+
+## 类型之间的转换
+
+data.frame --> c
+
+```{r}
+# 在R语言里面，DataFrame的一列数据本质上可以认为是一个向量或列表，但是一行数据不是。
+# 想取某一行的数据作为向量可以这样操作: c(t(行))
+data(iris)
+iris[1,]
+t(iris[1,])
+c(t(iris[1,]))
+
+```
+
+
+
+## 向量: c() （一维）
+## 矩阵: matrix() （二维）
+## 数组: array() （多维）
+## 因子: factor()
+## 列表: list()
+
+```{r}
+a1 <- data.frame(a=c(1,2,3), b=c("a", "b", "c"))
+a2 <- data.frame(a=c(11,22,33), b=c("aa", "bb", "cc"))
+c1 <- "name: a"
+c2 <- "name: aa"
+
+L <- list(list(a1, c1, c1), list(a2, c2, c1))
+L
+L[[1]][[1]]
+L[[1]][[2]]
+L[[1]][[3]]
+L[[2]][[1]]
+L[[2]][[2]]
+L[[2]][[3]]
+length(L)
+length(L[[1]])
+
+for (i in 1:length(L)){
+  for (j in 1:length(L[[1]])){
+    cat(paste("-->", i, j), ":\n")
+    print(L[[i]][[j]])
+  }
+}
+
+```
+
+## 数据框: data.frame()
+
+
+
+# 实战Demo
+
+```{r}
+a <- data.frame(a = c(1, 2, 3, 4), b = c(1, 2, 3, 4) * 2)
+a
+total_count <- colSums(a)
+total_count
+
+## 问题： 想用每一个数去除以每一列的和得到一个新矩阵应该怎么写？
+r1 <- a / total_count
+r1  # 错误示范
+
+r2 <- t(t(a) / colSums(a))
+r2 # 正确示例
+
+r3 <- t(do.call(
+  rbind,
+  lapply(
+    1:length(total_count),
+    function(i) {
+      a[, i] / total_count[i]
+      # lengths向量自动遍历
+    }
+  )
+))
+r3  # 正确示例
+
+```

@@ -1,0 +1,81 @@
+
+```{r}
+match.arg("AA", c("BP", "MF", "CC", "ALL"))
+match.arg("BP", c("BP", "MF", "CC", "ALL"))
+match.arg("CC", c("BP", "MF", "CC", "ALL"))
+plot(1)
+```
+
+
+# 参数传递
+
+## commandArgs
+
+```{r}
+args <- commandArgs(trailingOnly = TRUE)
+a <- args[1] # in.bed  a<-"HX_5637.bed"
+```
+
+
+```{r}
+library("getopt")
+
+## 定义参数
+command <- matrix(c(
+    "help", "h", 0, "loical", "帮助文档",
+    "infileBed", "i", 0, "character", "输入的bed文件",
+    "outName", "o", 1, "character", "输出的所有文件前缀",
+    "ref", "r", 1, "character", "输入使用的参考，hg38/mm10，默认为hg38"
+), byrow = T, ncol = 5)
+args <- getopt(command)
+
+## 判断如果为空，则退出
+if (!is.null(args$help) || is.null(args$infileBed)) {
+    cat(paste(getopt(command, usage = T), "\n"))
+    q(status = 1)
+}
+
+## 设置默认值
+if (is.null(args$outName)) {
+    cat("未输入outName, 默认去除后缀“.bed”\n")
+    SampleName <- substr(basename(args$infileBed), 1, nchar(basename(args$infileBed)) - 4) # 去除后缀 .bed
+} else {
+    SampleName <- args$outName
+}
+if (is.null(args$ref)) {
+    cat("未输入ref, 默认hg38\n")
+    ref <- "hg38"
+} else {
+    ref <- args$ref
+}
+infileBed <- args$infileBed
+
+cat(paste0(
+    "\n输入infileBed：", infileBed,
+    "\n输出的名字前缀：", SampleName,
+    "\n参考：", ref,
+    "\n"
+))
+```
+
+## 特殊变量
+
+存为文件 get_shell.sh ：
+
+```R
+#!/usr/bin/env bash
+
+SRRs="$*"
+
+for idx in $(seq $#); do
+    srr="$(eval "echo -e \"\${$idx}\"")"
+    srr_name="$(basename "$srr" | sed 's#.sra$##')"
+    echo "mkdir -p ./fastq logs/"
+    echo "fasterq-dump --split-3 -e 20 \"$srr\" -O ./fastq &>\"logs/log.${srr_name}.txt\""
+    echo "pigz -9 -p 20 \"./fastq/${srr_name}*.fastq\""
+done
+```
+
+```{r}
+sh get_shell.sh 1 "2 3" 4
+```

@@ -1,0 +1,80 @@
+
+[GGPlot Violin Plot - Datanovia](https://www.datanovia.com/en/lessons/ggplot-violin-plot/)
+
+
+## 如何绘制？
+
+```{r}
+data("ToothGrowth")
+ToothGrowth$dose <- as.factor(ToothGrowth$dose)
+head(ToothGrowth, 4)
+##    len supp dose
+## 1  4.2   VC  0.5
+## 2 11.5   VC  0.5
+## 3  7.3   VC  0.5
+## 4  5.8   VC  0.5
+```
+
+```{r}
+library(ggplot2)
+theme_set(
+    theme_classic() +
+        theme(legend.position = "top")
+)
+# Initiate a ggplot
+e <- ggplot(ToothGrowth, aes(x = dose, y = len))
+
+# Add mean points +/- SD
+# Use geom = "pointrange" or geom = "crossbar"
+e + geom_violin(trim = FALSE) +
+    stat_summary(
+        fun.data = "mean_sdl", fun.args = list(mult = 1),
+        geom = "pointrange", color = "black"
+    )
+```
+
+
+```{r}
+head(ToothGrowth)
+e <- ggplot(ToothGrowth, aes(x = dose, y = len))
+# Combine with box plot to add median and quartiles
+# Change fill color by groups, remove legend
+e + geom_violin(aes(fill = dose), trim = FALSE) +
+    geom_boxplot(width = 0.2) +
+    # scale_fill_manual(values = c("#00AFBB", "#E7B800", "#FC4E07")) +  # 颜色填充
+    theme(legend.position = "none")
+```
+
+
+---
+## 密度分布
+
+```{r}
+library(ggpubr) # 额，安装失败
+df <- ToothGrowth
+df$dose <- as.factor(df$dose)
+
+p <- ggdensity(df,
+    x = "len",
+    fill = "dose",
+    palette = "jco",
+    ggtheme = theme_light(), legend = "top"
+)
+p
+```
+
+---
+## 如果获得矩阵？
+
+```{r}
+a <- data.frame(s1 = c(1:5, 10:6), s2 = 1:10, row.names = paste0("gene", 1:10))
+a
+logCPM <- log2(a)
+ggplot(logCPM) +
+    geom_violin(
+        data = logCPM, xName = "RP11-351J23.1",
+        groupName = "Tumor", position = position_dodge(0.8),
+        backgroundColor = "white", groupColors = c("#999999", "#E69F00"),
+        legendPosition = "top"
+    )
+```

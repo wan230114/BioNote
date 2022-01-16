@@ -1,0 +1,103 @@
+
+# geom_point + geom_text_repel
+
+```bash
+{
+echo "
+              gene        MA     Young  col
+ENSRNOG00000003210  7.083871  0.000000   up
+ENSRNOG00000045565  9.540526  0.000000   up
+ENSRNOG00000031510  1.516799  0.000000   up
+ENSRNOG00000020102  4.931194  8.631237 down
+ENSRNOG00000007387  6.789670  9.893460 down
+ENSRNOG00000004068  0.000000  7.756863 down
+ENSRNOG00000001004 10.104894 11.863012 down
+ENSRNOG00000055246  6.780581  9.907116 down
+ENSRNOG00000053583  0.000000  5.855709 down
+ENSRNOG00000020254  8.375400 10.625528 down
+ENSRNOG00000005330  7.735934  9.900586 down
+ENSRNOG00000047481  0.000000  3.734428 down
+ENSRNOG00000000442  7.656733  8.575040  not
+ENSRNOG00000029756  4.238900  4.665839  not
+ENSRNOG00000017416  9.754455 10.528477  not
+" |awk NF|awk '{OFS="\t"; print $1,$2,$3,$4}' >data.xls
+}
+
+```
+
+```{r}
+M <- read.table("./data.xls", sep = "\t", quote = "", row.names = 1, header = T)
+library(ggplot2)
+p <- ggplot(M, aes(MA, Young, color = col)) +
+    # geom_point() +
+    geom_point(alpha = 6 / 10, size = 0.8) +
+    scale_color_manual(
+        # values = c("#e87d72", "#53b74c", "#316ef1")
+        values = c("firebrick3", "#a5a5a5", "#000080")
+    )
+#  +
+# theme(text = element_text(size = 17))
+p
+```
+
+```
+ENSRNOG00000020102  Sirt2
+ENSRNOG00000007387   Per1
+ENSRNOG00000020254   Per2
+ENSRNOG00000004068  Ncoa1
+ENSRNOG00000007975  Ncoa2
+ENSRNOG00000055246  Ncor1
+ENSRNOG00000001004  Ncor2
+ENSRNOG00000002175  Clock
+ENSRNOG00000047481  Kiss1
+ENSRNOG00000005330 Crebbp
+ENSRNOG00000016050  Fgfr1
+ENSRNOG00000053583  Mapk3
+```
+
+```{r}
+
+lable <- rep(NA, nrow(M))
+names(lable) <- rownames(M)
+length(lable)
+
+anno <- data.frame(
+    row.names = c("ENSRNOG00000020102", "ENSRNOG00000055246"),
+    name = c("Sirt2", "Ncor1")
+)
+filter_gene <- names(lable)[names(lable) %in% rownames(anno)]
+lable[filter_gene] <- anno[filter_gene, 1]
+lable <- as.vector(lable)
+# lable
+lable[!is.na(lable)]
+
+library(ggrepel)
+p2 <- p +
+    geom_text_repel(aes(MA, Young, label = lable),
+        # # family = "Times",
+        # fontface = "bold",
+        # size = 6,
+        seed = 32,
+        # size = 4,
+        arrow = arrow(length = unit(0.05, "inches")), # 将线段渲染为箭头
+        color = "#000000",
+        nudge_x = .5, # 调整文本标签的起始 x 位置
+        # nudge_y = .15, # 调整文本标签的起始 y 位置
+        box.padding = unit(1, "lines"), # 线条长度。在文本标签周围填充
+        point.padding = -0.2, # lines	在标记的数据点周围填充
+        min.segment.length = 0, # =0, 绘制所有线段，不管他们是多么短暂。
+        # point.padding = unit(1.6, "lines"),
+        point.size = 3, # 每个文本标签的每个点的大小
+        # segment.size = 1,  # 0.5 mm 线段粗细
+        # segment.inflect = TRUE,  # 中点处的曲线拐点
+        segment.curvature = -1e-20,
+        # segment.curvature = -.1, # 增加右手曲率，负值会增加左手曲率，0 表示直线
+        segment.ncp = 0, # 为曲线提供 3 个控制点
+        # segment.angle = -20, # 将曲线向起点倾斜，大于 90 的值将向终点倾斜
+        segment.color = "#000000"
+    )
+p2
+
+width <- 10 / 1.5
+height <- 8 / 1.5
+```

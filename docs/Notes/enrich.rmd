@@ -1,0 +1,21 @@
+
+
+```{r}
+lapply(c("clusterProfiler", "enrichplot", "patchwork"), function(x) {
+    library(x, character.only = T)
+})
+data(geneList, package = "DOSE")
+# Please go to https://yulab-smu.github.io/clusterProfiler-book/ for the full vignette.
+kk2 <- gseKEGG(
+    geneList = geneList,
+    organism = "hsa",
+    nPerm = 10000,
+    minGSSize = 10,
+    maxGSSize = 200,
+    pvalueCutoff = 0.05,
+    pAdjustMethod = "none"
+)
+
+gseaplot2(kk2, geneSetID = rownames(kk2@result)[head(order(kk2@result$enrichmentScore))]) +
+    gseaplot2(kk2, geneSetID = rownames(kk2@result)[tail(order(kk2@result$enrichmentScore))])
+```

@@ -1,0 +1,221 @@
+<!--
+  * Author: Chen Jun
+  * Author Email: 1170101471@qq.com
+  * Created Date: 2021-07-15, 17:36:16
+  * Modified By: Chen Jun
+  * Last Modified: 2021-11-12, 18:22:03
+-->
+
+# ggplot Notes
+
+## 点的文字标注相关
+### `geom_text_repel` 点标注文字
+
+
+- [How to Selectively Place Text in ggplots with geom_text()](https://thatdatatho.com/selectively-place-text-in-ggplots-geom_text/)
+- [Examples • ggrepel](https://ggrepel.slowkow.com/articles/examples.html)
+
+```{r}
+# install.packages("gapminder")
+# install.packages("tidyverse")
+# install.packages("ggrepel")
+
+library(gapminder)
+library(tidyverse)
+library(ggrepel)
+
+df %>%
+  dplyr::arrange(desc(pop)) %>%
+  .[1:3, ] -> text_size
+
+ggplot(df, aes(x = log(gdpPercap), y = lifeExp)) +
+  geom_point(alpha = 0.5, aes(col = continent, size = pop)) +
+  theme_minimal() +
+  guides(size = F) +
+  ylab("Life Expectancy") +
+  xlab("GDP per Capita") +
+  geom_text(
+    data = text_size,
+    aes(label = paste(round(pop / 1000000, 0), "Mio")),
+    nudge_x = 0.35,
+    nudge_y = -0.5
+  )
+```
+
+
+### `geom_text_repel`
+
+geom_text_repel 可以看做 geom_text 的优化版： 特点是可以自动调整点与文字的距离，适当时自动挪到合适位置，解决重叠，超出边界等一系列问题。
+
+```{r}
+# install.packages("ggrepel")
+library(ggplot2)
+# 使用系统数据集mtcars演示
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = "red") +
+  geom_text(aes(wt, mpg, label = rownames(mtcars))) +
+  theme_classic(base_size = 16)
+
+library(ggrepel)
+set.seed(123)
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = "red") +
+  geom_text_repel(aes(wt, mpg, label = rownames(mtcars))) +
+  theme_classic(base_size = 16)
+
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = "red") +
+  geom_text_repel(aes(wt, mpg, label = rownames(mtcars)),
+    # # family = "Times",
+    fontface = "bold",
+    seed = 32,
+    # size = 4,
+    arrow = arrow(length = unit(0.05, "inches")), # 将线段渲染为箭头
+    color = "#000000",
+    nudge_x = .5, # 调整文本标签的起始 x 位置
+    # nudge_y = .15, # 调整文本标签的起始 y 位置
+    box.padding = unit(1, "lines"), # 线条长度。在文本标签周围填充
+    point.padding = -0.2, # lines	在标记的数据点周围填充
+    min.segment.length = 0, # =0, 绘制所有线段，不管他们是多么短暂。
+    # point.padding = unit(1.6, "lines"),
+    point.size = 3, # 每个文本标签的每个点的大小
+    # segment.size = 1,  # 0.5 mm 线段粗细
+    # segment.inflect = TRUE,  # 中点处的曲线拐点
+    segment.curvature = -1e-20,
+    # segment.curvature = -.1, # 增加右手曲率，负值会增加左手曲率，0 表示直线
+    segment.ncp = 0, # 为曲线提供 3 个控制点
+    # segment.angle = -20, # 将曲线向起点倾斜，大于 90 的值将向终点倾斜
+    segment.color = "#000000"
+  ) +
+  theme_classic(base_size = 16)
+```
+
+筛选一部分：
+```{r}
+lable <- rownames(mtcars)
+lable[2:30] <- NA
+ggplot(mtcars) +
+  geom_point(aes(wt, mpg), color = "red") +
+  geom_text_repel(aes(wt, mpg, label = lable),
+    box.padding = unit(0.5, "lines")
+  ) +
+  theme_classic(base_size = 16)
+```
+
+---
+## geom_density() 密度图
+
+```{r}
+# install.packages("ggplot2")
+library(ggplot2)
+
+# Data
+x <- c(0:100, rep(500, 10), rep(700, 10), 1000)
+df <- data.frame(x)
+
+# Density plot in ggplot2
+ggplot(df, aes(x = x)) +
+  geom_density(
+    color = 4,
+    fill = 4,
+    alpha = 0.25
+  )
+```
+
+```{r}
+## [5.4 A ggplot bestiary | An Introduction to R](https://intro2r.com/bestiary.html)
+{
+  eachs <- 1000
+  List = list(
+    # A=c(0:50),
+    # B=c(0:50, rep(500, 5), rep(700, 5), 995:1000),
+    # C1=c(0:100, rep(500, 10), rep(700, 10), 990:1000),
+    # C2=c(rep(0:100, each=eachs), rep(500, each=eachs * 10), rep(700, each=eachs * 10), rep(990:1000, each=eachs)),
+    # D1=c(rep(c(0:100, 300:320, 490:500), each=1)),
+    # D2=c(rep(c(0:100, 300:320, 490:500), each=eachs)),
+    F1=c(rep(c(0:1000, 800:810), each=1)),
+    F2=c(rep(c(0:1000, 800:810), each=eachs)),
+    # D=c(0:150, rep(500, 15), rep(700, 15), 985:1000),
+    # a=c(1:100),
+    # b=c(51:100, 1:50),
+    N=c(NA)
+  )
+
+  df2 <- data.frame()
+  for (i in 1:length(List)){
+    x <- List[[i]]
+    group <- names(List)[i]
+    df2 <- rbind(df2, data.frame(x, group))
+  }
+  A <- min(df2$x, na.rm = T)
+  B <- max(df2$x, na.rm = T)
+
+  print(table(df2$group))
+  library(ggplot2)
+  ggplot(df2) +
+      geom_density(aes(x = x,  fill = group), alpha = 0.5) +
+      # geom_histogram(fill = "cornsilk", colour = "grey60", size = .2) +
+      labs(y = "Density", x = "Number", fill = "Nitrogen\nConcentration") +
+      xlim(A-(B - A)*0.25, B+(B - A)*0.25) +  
+      scale_fill_manual(values = c("#701df3", "#DB24BC", "#BCDB24", "#6a9955", "#24BCDB")) +
+      theme_classic()
+}
+# 思考：
+# 1. 不是说总体的总体越少，Density值越高。 数量越多，结果反而越低。
+#     A   B   C   D 
+#    51  67 132 197
+# 2. 他们的面积之和仿佛是一个定数
+# 
+# 因此在 m6a-plot 中， 想要利用纵坐标的高低来反映甲基化程度， 必须去掉许多无关紧要的Peak。
+# 永远不可能出现 一个组的高度全部低于另一个组的情况，即面积纯粹小于。
+```
+
+
+---
+## stat_ecdf() 经验累积分布函数（ECDF）
+
+```{r}
+library(ggplot2)
+df <- data.frame(a = c(1:5, 1:5, 50:52, 90:100))
+ggplot(df, aes_string(x = "a")) +
+  stat_ecdf() +
+  labs(title = (paste("datas:", paste(df$a, collapse = " "))))
+# ggplot(iris, aes_string(x = "Sepal.Length")) + stat_ecdf()
+# iris$Petal.Length[order(iris$Petal.Length)]
+df$a
+
+```
+
+
+---
+## `geom_bar` 柱状图绘制
+
+```{r}
+library(ggplot2)
+
+library(grDevices)
+df <- data.frame(a = 1:5, b=2:6, c=c("aaaaa", "bbbbb", "ccccc", "ddddd", "eeeee"))
+ggplot(df, aes(x = c, y = b, fill=c)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+```
+
+
+```{r}
+x <- rep(paste0("g", 1:5), each = 4)
+y <- rep(c('A','B','C', "D"),times = 5)
+set.seed(1234)
+z <- round(runif(min = 5000, max = 20000, n = 20))
+df <- data.frame(x = x, y = y, z = z)
+
+library(ggplot2)
+ggplot(data = df, mapping = aes(x = factor(x), y = z, fill = y)) +
+  geom_bar(stat = 'identity', position = 'dodge', colour = '#ffffff') + 
+  labs(y = "Nums", x = "Groups", fill = "Samples") +
+  scale_fill_manual(values = c("#b2c6da", "#b2c6da", "#e9b1ab", "#e9b1ab")) +
+  geom_text(aes(label=z),
+            size = 3, colour = '#272727',  # #272727
+            position=position_dodge(width=0.9), vjust=-0.25) +
+  theme_classic()
+```
+

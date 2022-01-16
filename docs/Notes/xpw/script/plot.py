@@ -6,7 +6,7 @@
 # @ Author Email: 1170101471@qq.com
 # @ Created Date: 2021-01-13, 19:00:59
 # @ Modified By: Chen Jun
-# @ Last Modified: 2021-01-17, 18:24:05
+# @ Last Modified: 2021-11-11, 23:26:27
 #############################################
 
 # %%
@@ -41,20 +41,20 @@ print(x1_dt, x2_dt)
 print(y1_dt, y2_dt)
 
 # %%
-# # %%
-# # 数据准备
-# # define the x and y axis of the hotmap
-# xLabel = ['Tom', 'Dick', 'Harry', 'Slim', 'Jim',
-#           "Jeson", "God", "Herry", "Bom", "Tidy"]
-# yLabel = ["G%s" % i for i in range(len(xLabel))]
+# %%
+# 数据准备
+# define the x and y axis of the hotmap
+xLabel = ['Tom', 'Dick', 'Harry', 'Slim', 'Jim',
+          "Jeson", "God", "Herry", "Bom", "Tidy"]
+yLabel = ["G%s" % i for i in range(len(xLabel))]
 
-# # prepaer the data, generate the two-dimension data
-# data = np.zeros((len(xLabel), len(yLabel)))
-# data[[5, 2, 3, 2], [1, 3, 4, 4]] = 1
-# df = pd.DataFrame(data, columns=xLabel, index=yLabel)
-# # y_dt = x_dt = np.arange(.5, len(xLabel))
-# x_dt = df.sum(axis=0)
-# y_dt = df.sum(axis=1)
+# prepaer the data, generate the two-dimension data
+data = np.zeros((len(xLabel), len(yLabel)))
+data[[5, 2, 3, 2], [1, 3, 4, 4]] = 1
+df = pd.DataFrame(data, columns=xLabel, index=yLabel)
+# y_dt = x_dt = np.arange(.5, len(xLabel))
+x_dt = df.sum(axis=0)
+y_dt = df.sum(axis=1)
 
 
 #################### plot main ####################
