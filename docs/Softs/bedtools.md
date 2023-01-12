@@ -13,6 +13,7 @@
 # (2, 5]
 #  (3,5]
 #              (12,          20]
+#                       (18,          25]
 {
 echo  "
 chr10 2 5 a_range_1
@@ -26,6 +27,7 @@ echo  "
 chr10 2 5 b_range_1
 chr10 3 5 b_range_2
 chr10 12 20 b_range_3
+chr10 18 25 b_range_4
 "| awk NF |tr " " "\t" > B.bed
 }
 cat A.bed
@@ -34,10 +36,13 @@ cat B.bed
 
 # 交集 a & b
 bedtools intersect -a A.bed -b B.bed           # 输出交集计算后的区域 【PS：可以后面直接接管道合并重叠区域 ` | bedtools merge ` 】
-bedtools intersect -a A.bed -b B.bed | bedtools merge
+bedtools intersect -a B.bed -b A.bed
+bedtools intersect -a A.bed -b B.bed | bedtools sort | bedtools merge
+bedtools intersect -a B.bed -b A.bed | bedtools sort | bedtools merge
 bedtools intersect -a A.bed -b B.bed -wa       # 输出存在交集的A区域
 bedtools intersect -a A.bed -b B.bed -wb       # 输出交集计算后的区域, 输出存在交集的B区域
 bedtools intersect -a A.bed -b B.bed -wa -wb   # 输出存在交集的A区域, 输出存在交集的B区域
+bedtools intersect -a A.bed -b B.bed -wa -f 1
 
 intersectBed -nonamecheck -wo -a A.bed -b B.bed  # 等同于 -wa -wb ，并且输出交集的长度信息
 

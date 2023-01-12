@@ -1,6 +1,11 @@
 生信常见文件
 ---
 
+各类文件的格式含义:
+
+* [Genome Browser FAQ](https://genome.ucsc.edu/FAQ/FAQformat.html#format1)
+
+
 # 3.3.1. 基因序列  
 ## 3.3.1.1. fq / fasq  
 略  
