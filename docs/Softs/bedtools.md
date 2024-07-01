@@ -43,6 +43,7 @@ bedtools intersect -a A.bed -b B.bed -wa       # 输出存在交集的A区域
 bedtools intersect -a A.bed -b B.bed -wb       # 输出交集计算后的区域, 输出存在交集的B区域
 bedtools intersect -a A.bed -b B.bed -wa -wb   # 输出存在交集的A区域, 输出存在交集的B区域
 bedtools intersect -a A.bed -b B.bed -wa -f 1
+bedtools intersect -a A.bed -b B.bed -f 1
 
 intersectBed -nonamecheck -wo -a A.bed -b B.bed  # 等同于 -wa -wb ，并且输出交集的长度信息
 
